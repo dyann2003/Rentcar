@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Home page</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <style>
+        .transmission_type {
+            background: #cde6fd;
+            border-radius: 20px;
+            padding: 0 5px;
+            font-size: 11px;
+            color: black;
+            margin: 0 5px 8px 0;
+        }
+    </style>
+</head>
+<body>
+
+<th:block layout:fragment="content">
+
+    <!-- Page Header Start -->
+    <div class="container pt-3 page-header" style="max-width: 1423px; margin-bottom: 0">
+        <h1 class="display-3 text-uppercase text-white mb-3">Car Listing</h1>
+        <div class="d-inline-flex text-white">
+            <h6 class="text-uppercase m-0"><a class="text-white" href="">Home</a></h6>
+            <h6 class="text-body m-0 px-3">/</h6>
+            <h6 class="text-uppercase text-body m-0">Car Listing</h6>
+        </div>
+    </div>
+    <!-- Page Header Start -->
+
+    <!-- Rent A Car Start -->
+    <div class="container-fluid py-5" >
+        <div class="container pb-3" style="max-width: 1220px">
+            <div class="row d-flex align-items-center" style="height: 150px;">
+                <h1 class="display-4 text-uppercase text-center">List of my cars</h1>
+                <a class="btn btn-primary px-3" style="height: 45px; align-content: center; margin-left: auto"
+                   th:href="@{/car-owner/post-car}">Thêm xe mới</a>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-2" th:each="car : ${resultPage.content}">
+                    <div class="rent-item mb-4">
+                        <a th:href="@{/cars/detail(id=${car.id}, address=${address}, time=${time})}"
+                           style="text-decoration: none">
+                            <div th:if="${car.imagePaths != null and !car.imagePaths.isEmpty()}">
+                                <img class="img-fluid mb-3 image-size-search" th:src="@{${car.imagePaths[0]}}"
+                                     alt="Car Image"/>
+                            </div>
+                            <div th:unless="${car.imagePaths != null and !car.imagePaths.isEmpty()}">
+                                <p>No images available</p>
+                            </div>
+                            <div class="d-flex justify-content-start">
+                                <p class="transmission_type"
+                                   th:text="${car.transmissionType == 'Manual' ? 'Số sàn' : car.transmissionType == 'Automatic' ? 'Số tự động' : ''}"
+                                   th:style="${car.transmissionType == 'Manual' ? 'background-color: #a0f898;' : ''}"></p>
+                                <p class="transmission_type"
+                                   th:if="${car.isDelivery()}"
+                                   th:text="'Giao xe tận nơi'"
+                                   th:style="${car.isDelivery() ? 'background-color: #fddf99;' : ''}"></p>
+
+                            </div>
+
+                            <h4 style="font-size: 17px; text-align: start" class="text-uppercase mb-1">
+                                <span th:text="${car.brand.brandName}"></span>
+                                <span th:text="${car.model.name}"></span>
+                            </h4>
+                            <div class="d-flex justify-content-start" style="font-size: 11px">
+                                <i style="align-content: center; color: black" class="fas fa-map-marker-alt mr-2"></i>
+                                <p style="margin-bottom: 0; color: rgb(89 81 81 / 92%);" class="searchCarAddress"
+                                   th:text="${car.address}"></p>
+                            </div>
+
+                            <hr style="border: 0; border-top: 1px solid #8c8888; margin: 10px 0;">
+                            <div class="d-flex justify-content-start mb-3" style="font-size: 14px">
+                                <div class="d-flex justify-content-start"
+                                     th:if="${car.rating != null and car.rating != null}">
+                                    <i style="align-content: center; color: #fdbe37" class="fa-solid fa-star mr-1"></i>
+                                    <p style="margin-bottom: 0; color: rgb(89 81 81 / 92%); align-content: center; font-size: 12px"
+                                       th:text="${car.rating}"></p>
+                                </div>
+                                <div class="d-flex justify-content-start"
+                                     th:if="${car.rating != null and listCount.containsKey(car.id)}">
+                                    <span style="color: rgb(89 81 81 / 92%); margin: 0 2px">•</span>
+                                </div>
+                                <div class="d-flex justify-content-start"
+                                     th:if="${car.rating == null and !listCount.containsKey(car.id)}">
+                                    <span style="color: rgb(89 81 81 / 92%); font-size: 12px; align-content: center">Chưa có chuyến</span>
+                                </div>
+                                <div class="d-flex justify-content-start"
+                                     th:if="${listCount.containsKey(car.id)}">
+                                    <i class="fa-solid fa-car-side"
+                                       style="align-content: center; color: #f8a553; margin-right: 2px"></i>
+                                    <p style="margin-bottom: 0; color: rgb(89 81 81 / 92%); align-content: center; font-size: 12px"
+                                       th:text="${listCount.get(car.id)} + ' chuyến'"></p>
+                                </div>
+                                <div class="d-flex justify-content-start" style="margin-left: auto;">
+                                    <p style="margin-bottom: 0; color: #f88753; font-size: 17px; font-weight: bolder"
+                                       th:text="*{#numbers.formatInteger(car.pricePerDay / 1000.0, 3, 'POINT')}"></p>
+                                    <span style="color: rgb(89 81 81 / 92%); font-size: 12px; margin: 0 2px; align-content: center">/ngày</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <section id="pagination" class="container mt-2 mb-5" th:if="${resultPage.totalPages > 1}">
+                <div th:replace="~{component/pagination :: pagination}"></div>
+            </section>
+        </div>
+    </div>
+    <!-- Rent A Car End -->
+
+</th:block>
+</body>
+
+</html>

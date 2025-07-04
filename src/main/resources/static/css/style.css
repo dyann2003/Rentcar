@@ -1,0 +1,674 @@
+/********** Template CSS **********/
+:root {
+    --primary: #F77D0A;
+    --secondary: #2B2E4A;
+    --light: #F4F5F8;
+    --dark: #1C1E32;
+}
+
+h1,
+h2,
+.font-weight-bold {
+    font-weight: 700 !important;
+}
+
+h3,
+h4,
+.font-weight-semi-bold {
+    font-weight: 600 !important;
+}
+
+h5,
+h6,
+.font-weight-medium {
+    font-weight: 500 !important;
+}
+
+.btn-square {
+    width: 36px;
+    height: 36px;
+}
+
+.btn-sm-square {
+    width: 28px;
+    height: 28px;
+}
+
+.btn-lg-square {
+    width: 46px;
+    height: 46px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+}
+
+.back-to-top {
+    position: fixed;
+    display: none;
+    right: 30px;
+    bottom: 30px;
+    z-index: 99;
+}
+
+.nav-bar::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 50%;
+    top: 0;
+    left: 0;
+    background: var(--dark);
+}
+
+.nav-bar::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+    left: 0;
+    background: #ffffff;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    padding: 30px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--light);
+    outline: none;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+    color: var(--primary);
+}
+
+@media (max-width: 991.98px) {
+    .navbar-dark .navbar-nav .nav-link {
+        padding: 10px 15px;
+    }
+}
+
+.carousel-caption {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(28, 30, 50, .7);
+    z-index: 1;
+}
+
+@media (max-width: 576px) {
+    .carousel-caption h4 {
+        font-size: 18px;
+        font-weight: 500 !important;
+    }
+
+    .carousel-caption h1 {
+        font-size: 30px;
+        font-weight: 600 !important;
+    }
+}
+
+.page-header {
+    height: 400px;
+    margin-bottom: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(rgba(28, 30, 50, .9), rgba(28, 30, 50, .9)), url(../img/bg-banner.jpg);
+    background-attachment: fixed;
+}
+
+@media (max-width: 991.98px) {
+    .page-header {
+        height: 300px;
+    }
+}
+
+.image-size {
+    height: 150px;
+    width: 290px;
+}
+
+#suggestions {
+    border: 1px solid #ccc;
+    background-color: white;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute; /* Để danh sách gợi ý không che khuất các phần tử khác */
+    z-index: 1000; /* Đảm bảo danh sách gợi ý luôn nằm trên các phần tử khác */
+}
+
+#suggestions li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#suggestions li:hover {
+    background-color: #f0f0f0; /* Hiệu ứng hover */
+}
+
+
+.service-item {
+    height: 460px;
+    background: var(--light);
+    transition: .5s;
+}
+
+.service-item:hover,
+.service-item.active {
+    background: var(--secondary);
+}
+
+.service-item h1,
+.service-item h4 {
+    transition: .5s;
+}
+
+
+.service-item:hover h4,
+.service-item.active h4 {
+    color: var(--light);
+}
+
+.rent-item {
+    padding: 30px 30px 1px 30px;
+    text-align: center;
+    background: var(--light);
+    transition: .5s;
+}
+
+.rent-item:hover,
+.rent-item.active {
+    background: var(--secondary);
+}
+
+.rent-item h4 {
+    transition: .5s;
+}
+
+.rent-item:hover h4,
+.rent-item.active h4 {
+    color: var(--light);
+}
+
+.team-item {
+    padding: 30px 30px 0 30px;
+    text-align: center;
+    background: var(--light);
+    transition: .5s;
+}
+
+.team-item:hover,
+.owl-item.center .team-item {
+    background: var(--secondary);
+}
+
+.team-item h4 {
+    transition: .5s;
+}
+
+.owl-item.center .team-item h4,
+.owl-item.center .rent-item h4 {
+    color: var(--light);
+}
+
+.team-item .team-social {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: .5s;
+    background: var(--light);
+}
+
+.owl-item.center .team-item .team-social,
+.owl-item.center .rent-item {
+    background: var(--secondary);
+}
+
+.team-item:hover .team-social {
+    opacity: 1;
+    background: var(--secondary);
+}
+
+.team-carousel .owl-nav,
+.related-carousel .owl-nav {
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    top: calc(50% - 30px);
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+.team-carousel .owl-nav .owl-prev,
+.team-carousel .owl-nav .owl-next,
+.related-carousel .owl-nav .owl-prev,
+.related-carousel .owl-nav .owl-next {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    background: var(--primary);
+    font-size: 22px;
+    transition: .5s;
+}
+
+.team-carousel .owl-nav .owl-prev:hover,
+.team-carousel .owl-nav .owl-next:hover,
+.related-carousel .owl-nav .owl-prev:hover,
+.related-carousel .owl-nav .owl-next:hover {
+    background: var(--secondary);
+}
+
+.vendor-carousel .owl-dots,
+.testimonial-carousel .owl-dots {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vendor-carousel .owl-dot,
+.testimonial-carousel .owl-dot {
+    position: relative;
+    display: inline-block;
+    margin: 0 5px;
+    width: 20px;
+    height: 20px;
+    background: var(--secondary);
+    transition: .5s;
+}
+
+.vendor-carousel .owl-dot.active,
+.testimonial-carousel .owl-dot.active {
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+}
+
+.testimonial-carousel .owl-item img {
+    width: 80px;
+    height: 80px;
+}
+
+.testimonial-carousel .owl-item .testimonial-item {
+    height: 350px;
+    transition: .5s;
+    background: var(--light);
+}
+
+.testimonial-carousel .owl-item.center .testimonial-item {
+    background: var(--secondary);
+}
+
+.testimonial-carousel .owl-item .testimonial-item h1,
+.testimonial-carousel .owl-item .testimonial-item h4 {
+    transition: .5s;
+}
+
+.testimonial-carousel .owl-item.center .testimonial-item h1 {
+    color: var(--dark) !important;
+}
+
+.testimonial-carousel .owl-item.center .testimonial-item h4 {
+    color: var(--light);
+}
+
+.bg-banner {
+    background: linear-gradient(rgba(28, 30, 50, .9), rgba(28, 30, 50, .9)), url(../img/bg-banner.jpg);
+    background-attachment: fixed;
+}
+
+.border-custom {
+    border: 1px solid #ccc; /* Đặt màu viền */
+    padding: 10px; /* Khoảng cách giữa viền và nội dung */
+    border-radius: 15px; /* Bo tròn góc */
+}
+
+.button-banner-guest {
+    width: 60%;
+    height: 50px;
+    align-content: center;
+    font-size: larger;
+    font-weight: 900;
+}
+
+.banner-guest {
+    height: 350px;
+    align-content: center;
+    position: relative;
+    overflow: hidden;
+    background: #2B2E4A;
+    max-width: 1422px;
+}
+
+.banner-guest::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px; /* Độ dày của đường kẻ */
+    background-color: #ccc; /* Màu của đường kẻ */
+    transform: rotate(10deg); /* Điều chỉnh độ nghiêng */
+    z-index: 3;
+}
+
+.input-with-icon {
+    height: 50px;
+    width: 100%;
+    border-radius: 10px;
+    padding-left: 40px; /* Đẩy văn bản sang phải để chừa chỗ cho icon */
+    background: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/svgs/solid/map-marker-alt.svg') no-repeat;
+    border: 1px solid #ccc; /* Màu viền */
+}
+
+.nav-tabs .nav-link.active {
+    border-color: #ccc3c3;
+    color: #F77D0A;
+    border-bottom: 0;
+}
+
+.nav-tabs .nav-link {
+    color: #333;
+}
+
+.image-size-search {
+    height: 200px;
+    width: 400px;
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #e9e9e9;
+}
+
+option:disabled {
+    background-color: #d3d3d3; /* Màu nền xám */
+    color: #888888; /* Màu chữ xám */
+}
+
+
+.summary_checkout {
+    background-color: #ffffff;
+    padding: 12px;
+    width: 115%;
+}
+
+.price {
+    font-size: 30px;
+    font-weight: bolder;
+    color: #F77D0A;
+    margin: -30px -30px 20px;
+}
+
+.info {
+    color: black;
+    font-size: 17px;
+    margin: 10px 0;
+}
+
+.details {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 5px;
+}
+
+.custom-checkbox {
+    width: 17px;
+    height: 17px;
+    border: 2px solid #F77D0A;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 0;
+}
+
+/* Style for checked state */
+#deliveryCheckbox:checked + .custom-checkbox::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: #F77D0A;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+}
+
+
+.option-card {
+    border: 2px solid #dcdcdc;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.option-card.selected {
+    border-color: #32c671;
+    background-color: #f5fff5;
+}
+
+.checkbox-input {
+    display: none;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #dcdcdc;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+    position: relative;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+    border-color: #32c671;
+    background-color: #32c671;
+}
+
+.checkbox-input:checked + .checkbox-custom::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+}
+
+.option-content {
+    flex-grow: 1;
+}
+
+.option-content h4 {
+    margin: 0;
+    font-size: 1em;
+}
+
+.option-content p {
+    margin: 5px 0 0;
+    color: #666;
+}
+
+
+.page-link {
+    border-radius: 8px !important;
+}
+
+.page-item .page-link {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 3px !important;
+}
+
+.active > .page-link, .page-link.active {
+    color: #F77D0A !important;
+    background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity, 1)) !important;
+    border-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity, 1)) !important;
+}
+
+a.page-link:hover {
+    color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity, 1));
+    background-color: var(--bs-pagination-hover-bg);
+    border-color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity, 1));
+}
+
+
+.car-checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.car-type-checkbox {
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.car-type-checkbox:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+}
+
+.car-type-checkbox input[type="checkbox"]:checked + .car-checkbox-content {
+    border: 2px solid #007bff;
+    background-color: #f0f8ff;
+}
+
+.car-checkbox-content {
+    padding: 20px 10px;
+}
+
+.car-checkbox-icon {
+    width: 50px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.car-checkbox-content p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.car-checkbox-content span {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #777;
+}
+
+.custom-scroll {
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
+}
+
+.transmission_type {
+    background: #cde6fd;
+    border-radius: 20px;
+    padding: 0 5px;
+    font-size: 11px;
+    color: black;
+    margin: 0 5px 8px 0;
+}
+
+.checkbox-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.filter-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-button i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.filter-button:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-button.active {
+    background-color: #c2ffae;
+}
+
+.filter-button.active i {
+    color: #ffb71d;
+}
+
+.fa-car.active{
+    color: #ff9431;
+}
+
+.filter-button input[type="checkbox"]:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+
+.no-model input[type="checkbox"]:checked + i,
+.no-model input[type="checkbox"]:checked + span {
+    color: #ffb71d;
+    background-color: #c2ffae;
+}
+

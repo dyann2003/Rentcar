@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Wallet</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- Include Bootstrap CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+
+<link rel="stylesheet" th:href="@{/css/wallet.css}">
+
+<body>
+<th:block layout:fragment="content">
+    <div class="container mt-5">
+        <div class="wallet-section text-center">
+            <h4>My Wallet</h4>
+            <p class="current-balance">Your current balance:</p>
+            <h2 class="balance text-success">20,000,000 VND</h2>
+            <div class="button-group mt-3">
+                <button class="btn btn-warning">Withdraw</button>
+                <button class="btn btn-success">Top-up</button>
+            </div>
+        </div>
+
+        <!-- Transactions Section -->
+        <div class="transactions-section mt-5">
+            <h5>Transactions</h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="fromDate">From</label>
+                    <input type="date" id="fromDate" class="form-control">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="toDate">To</label>
+                    <input type="date" id="toDate" class="form-control">
+                </div>
+            </div>
+            <button class="btn btn-primary mb-4">Search</button>
+
+            <!-- Transactions Table -->
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th>No</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Date Time</th>
+                    <th>Booking No.</th>
+                    <th>Car Name</th>
+                    <th>Note</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>+10,000,000 VND</td>
+                    <td>Top-up</td>
+                    <td>12/02/2022 18:00</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>-2,000,000</td>
+                    <td>Withdrawal</td>
+                    <td>12/02/2022 18:00</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>-18,000,000</td>
+                    <td>Pay Deposit</td>
+                    <td>12/02/2022 18:00</td>
+                    <td>12345678</td>
+                    <td>Nissan Navara El 2017</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>+1,000,000</td>
+                    <td>Offset final payment</td>
+                    <td>12/02/2022 18:00</td>
+                    <td>12345678</td>
+                    <td>Nissan Navara El 2017</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>-500,000</td>
+                    <td>Offset final payment</td>
+                    <td>12/02/2022 18:00</td>
+                    <td>12345678</td>
+                    <td>Nissan Navara El 2017</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>+18,000,000</td>
+                    <td>Receive deposit</td>
+                    <td>12/02/2022 18:00</td>
+                    <td>12345678</td>
+                    <td>Nissan Navara El 2017</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination and Page Size -->
+            <div class="d-flex justify-content-between align-items-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">...</a></li>
+                    </ul>
+                </nav>
+                <div>
+                    <label for="pageSize">Per page</label>
+                    <select id="pageSize" class="form-control d-inline w-auto ml-2">
+                        <option>30</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

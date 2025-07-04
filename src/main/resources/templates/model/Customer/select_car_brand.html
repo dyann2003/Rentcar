@@ -1,0 +1,45 @@
+<div th:fragment="carBrand" class="modal fade" id="carBrand" tabindex="-1"
+     aria-labelledby="carBrandModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px">
+        <div class="modal-content" style="border-radius: 20px">
+            <div class="modal-header" style="font-size: 82px; padding: 14px 1rem;">
+                <h5 class="modal-title" style="margin-bottom: 0; font-size: 30px" id="carBrandModalLabel">Hãng xe</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body custom-scroll">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-check d-flex align-items-center">
+                            <input style="width: 20px; height: 20px;" class="form-check-input" type="radio"
+                                   name="carBrand" id="all" value="all"  th:checked="${brands == null}">
+                            <label class="form-check-label" style="font-size: 25px; margin-left: 10px" for="all">
+                                Tất cả
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" th:each="brand : ${carBrand}">
+                        <div class="form-check d-flex align-items-center">
+                            <input style="width: 20px; height: 20px;" class="form-check-input" type="radio"
+                                   name="carBrand" th:id="'basic' + ${brand.id}"
+                                   th:checked="${brands != null && brand.id.toString() == brands}"
+                                   th:value="${brand.id}">
+                            <label style="font-size: 25px; margin-left: 10px"
+                                   class="form-check-label d-flex align-items-center" th:for="'basic' + ${brand.id}">
+                                <img th:src="${brand.icon}" alt="Baic"
+                                     style="width: 25px; height: 25px; margin-right: 8px;" th:text="${brand.brandName}">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <a style="cursor: pointer" id="searchCarBrand" onclick="searchWithCarBrand()"
+                   type="button" class="btn btn-primary">Xác nhận</a>
+            </div>
+        </div>
+    </div>
+</div>

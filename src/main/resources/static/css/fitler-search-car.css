@@ -1,0 +1,56 @@
+.filter-section {
+    margin-bottom: 1.5rem;
+}
+
+.filter-label {
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.range-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.range-input input[type="text"] {
+    width: 80px;
+    padding: 0.5rem;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.range-input span {
+    font-size: 18px;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+}
+
+.features-grid label {
+    font-size: 14px;
+}
+
+.fuel-options label {
+    font-size: 14px;
+    margin-right: 1rem;
+}
+
+input[disabled] {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #6c757d;
+    text-align: center;
+    cursor: not-allowed;
+}

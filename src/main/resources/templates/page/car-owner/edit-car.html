@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a Car - Step Wizard</title>
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- Include CKEditor 5 -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+
+    <!-- Slick CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+    <!-- Slick JS -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <style>
+        /* Container for the form wizard */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Step Title */
+        .step h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #ff7f3f;
+            padding-bottom: 10px;
+        }
+
+        /* Form Label */
+        .step label {
+            display: block;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 5px;
+        }
+
+        /* Form Input */
+        .step input[type="text"],
+        .step input[type="file"],
+        .step select,
+        .step textarea {
+            width: 100%;
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Form Buttons */
+        .next-btn, .back-btn, .save-btn {
+            background-color: #ff7f3f;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .next-btn:hover, .back-btn:hover, .save-btn:hover {
+            background-color: #e67336;
+        }
+
+        .back-btn {
+            background-color: #bbb;
+        }
+
+        .back-btn:hover {
+            background-color: #999;
+        }
+
+        /* Image Preview */
+        .step img {
+            display: block;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+
+        /* Step Navigation Dots */
+        .image-slider .slick-dots li button {
+            background-color: #ccc;
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+        }
+
+        .image-slider .slick-dots li.slick-active button {
+            background-color: #ff7f3f;
+        }
+    </style>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <!-- Form start -->
+        <form action="/car-owner/edit-car/save" th:object="${car}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="carId" th:value="${car.id}" />
+            <!-- Step 1: Basic Car Information -->
+            <div class="step" id="step1">
+                <h2>Step 1: Basic Car Information</h2>
+                <label for="carBrand">Car Brand:</label>
+                <input type="text" id="carBrand" name="brand" placeholder="Enter car brand" th:value="*{brand}"
+                       th:field="*{brand}"
+                       required>
+                <label for="carModel">Model:</label>
+                <input type="text" id="carModel" name="model" placeholder="Enter car model" th:value="*{model}"
+                       th:field="*{model}"
+                       required>
+                <label for="carYear">Year:</label>
+                <input type="text" id="carYear" name="productionYear" placeholder="Enter year of manufacture"
+                       th:field="*{productionYear}" th:value="*{productionYear}" required>
+                <label for="carVIN">VIN:</label>
+                <input type="text" id="carVIN" name="VIN" placeholder="Enter 17-character VIN" th:value="*{VIN}"
+                       th:field="*{VIN}"
+                       required>
+                <label for="color">Color:</label>
+                <input type="text" id="color" name="color" placeholder="Enter car color" th:field="*{color}"
+                       th:value="*{color}" required>
+                <label for="mileage">Mileage:</label>
+                <input type="text" id="mileage" name="mileage" placeholder="Enter mileage" th:field="*{mileage}"
+                       th:value="*{mileage}" required>
+                <button type="button" class="next-btn" onclick="nextStep(2)">Next</button>
+            </div>
+
+            <!-- Step 2: Car Details -->
+            <div class="step" id="step2" style="display: none;">
+                <h2>Step 2: Car Details</h2>
+                <label for="carPrice">Rental Price per Day:</label>
+                <input type="text" id="carPrice" name="pricePerDay" placeholder="Enter rental price per day"
+                       th:field="*{pricePerDay}" th:value="*{pricePerDay}" required>
+                <label for="deposit">Deposit:</label>
+                <input type="text" id="deposit" name="deposit" placeholder="Enter deposit amount" th:field="*{deposit}"
+                       th:value="*{deposit}" required>
+                <label for="type">Car Type:</label>
+                <select id="type" name="carType" th:value="*{carType}"
+                        th:field="*{carType}" required>
+                    <option value="" disabled th:selected="${carType == null}">Please select car type</option>
+                    <option value="Mini">Mini</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="CUV">CUV</option>
+                    <option value="SUV">SUV</option>
+                    <option value="MPV">MPV</option>
+                    <option value="Minivan">Minivan</option>
+                    <option value="Pickup Truck">Pickup Truck</option>
+                </select>
+                <label for="carSeats">Seats:</label>
+                <input type="text" id="carSeats" name="numberOfSeats" placeholder="Enter number of seats"
+                       th:field="*{numberOfSeats}" th:value="*{numberOfSeats}" required>
+                <label for="description">Car Description</label>
+                <textarea class="form-control" id="description" name="description" rows="5"
+                          placeholder="Enter car description (e.g., Features, Condition)"
+                          th:field="*{description}" th:value="*{description}"></textarea>
+                <label for="transmission">Transmission:</label>
+                <select id="transmission" name="transmissionType" th:value="*{transmissionType}"
+                        th:field="*{transmissionType}" required>
+                    <option value="" disabled th:selected="${transmissionType == null}">Please select transmission type</option>
+                    <option value="Automatic">Automatic</option>
+                    <option value="Manual">Manual</option>
+                </select>
+                <label for="fuel">Fuel Type:</label>
+                <select id="fuel" name="fuelType" th:field="*{fuelType}" th:value="*{fuelType}" required>
+                    <option value="" disabled th:selected="${fuelType == null}">Please select fuel type</option>
+                    <option value="Gasoline">Gasoline</option>
+                    <option value="Diesel">Diesel</option>
+                </select>
+                <label for="fuelConsumption">Fuel Consumption:</label>
+                <input type="text" id="fuelConsumption" name="fuelConsumption" placeholder="Enter fuel consumption"
+                       th:field="*{fuelConsumption}" th:value="*{fuelConsumption}" required>
+                <label for="address">Address:</label>
+                <div class="mb-4">
+                    <input name="address" type="text" class="form-control px-4 mb-3" id="address"
+                           placeholder="Chọn Địa Chỉ"
+                           style="height: 50px; cursor: pointer"
+                           onclick="showSeachCar()" th:field="*{address}" th:value="*{address}" readonly required>
+
+                </div>
+                <div th:replace="~{model/pick_address_search :: pickAddress}"></div>
+
+                <label for="additional_functions">Additional functions:</label>
+                <input type="text" id="additional_functions" name="additional_functions" placeholder="Enter additional functions"
+                       th:field="*{additional_functions}" th:value="*{additional_functions}" required>
+                <button type="button" class="back-btn" onclick="nextStep(1)">Back</button>
+                <button type="button" class="next-btn" onclick="nextStep(3)">Next</button>
+            </div>
+
+            <!-- Step 3: Upload Images -->
+            <div class="step" id="step3" style="display: none;">
+                <h2>Step 3: Upload Car Images</h2>
+
+                <label for="frontImage">Front Image:</label>
+                <input type="file" id="frontImage" name="carImages" accept="image/*"
+                       onchange="previewImage(this, 'previewFrontStep3')" >
+                <img id="previewFrontStep3" width="20%"
+                     th:src="${imagePaths != null && imagePaths.size() > 0 ? imagePaths[0] : null}"
+                     alt="Front Image Preview"
+                     th:style="${imagePaths != null && imagePaths.size() > 0 ? 'display: block;' : 'display: none;'}"/>
+
+                <label for="backImage">Back Image:</label>
+                <input type="file" id="backImage" name="carImages" accept="image/*"
+                       onchange="previewImage(this, 'previewBackStep3')">
+                <img id="previewBackStep3" width="20%"
+                     th:src="${imagePaths != null && imagePaths.size() > 1 ? imagePaths[1] : null}"
+                     alt="Back Image Preview"
+                     th:style="${imagePaths != null && imagePaths.size() > 1 ? 'display: block;' : 'display: none;'}"/>
+
+                <label for="leftImage">Left Image:</label>
+                <input type="file" id="leftImage" name="carImages" accept="image/*"
+                       onchange="previewImage(this, 'previewLeftStep3')">
+                <img id="previewLeftStep3" width="20%"
+                     th:src="${imagePaths != null && imagePaths.size() > 2 ? imagePaths[2] : null}"
+                     alt="Left Image Preview"
+                     th:style="${imagePaths != null && imagePaths.size() > 2 ? 'display: block;' : 'display: none;'}"/>
+
+                <label for="rightImage">Right Image:</label>
+                <input type="file" id="rightImage" name="carImages" accept="image/*"
+                       onchange="previewImage(this, 'previewRightStep3')">
+                <img id="previewRightStep3" width="20%"
+                     th:src="${imagePaths != null && imagePaths.size() > 3 ? imagePaths[3] : null}"
+                     alt="Right Image Preview"
+                     th:style="${imagePaths != null && imagePaths.size() > 3 ? 'display: block;' : 'display: none;'}"/>
+
+                <button type="button" class="back-btn" onclick="nextStep(2)">Back</button>
+                <button type="button" class="next-btn" onclick="nextStep(4)">Next</button>
+            </div>
+
+            <!-- Step 4: Confirm Details -->
+            <div class="step" id="step4" style="display: none;">
+                <h2>Step 4: Confirm Details</h2>
+                <p id="summary"></p>
+                <h3>Image Previews:</h3>
+                <div class="image-slider">
+                    <div><img id="previewFrontStep4" style="width: 100%; height: auto;" alt="previewFrontStep"/></div>
+                    <div><img id="previewBackStep4" style="width: 100%; height: auto;" alt="previewBackStep"/></div>
+                    <div><img id="previewLeftStep4" style="width: 100%; height: auto;" alt="previewLeftStep"/></div>
+                    <div><img id="previewRightStep4" style="width: 100%; height: auto;" alt="previewRightStep"/></div>
+                </div>
+                <button type="button" class="back-btn" onclick="nextStep(3)">Back</button>
+                <button type="submit" class="save-btn">Save Car</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Initialize CKEditor on the textarea with id="description"
+        ClassicEditor
+            .create(document.querySelector('#description'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        $(document).ready(function () {
+            $('.image-slider').slick({
+                dots: true, // Hiện dấu chấm
+                infinite: true, // Vòng lặp
+                speed: 500, // Tốc độ chuyển đổi
+                slidesToShow: 1, // Hiện một ảnh
+                slidesToScroll: 1 // Cuộn một ảnh
+            });
+        });
+
+        function nextStep(step) {
+            if (!validateStep(step - 1)) {
+                alert("Please fill out all required fields in this step.");
+                return;
+            }
+
+            document.querySelectorAll('.step').forEach(function (stepDiv) {
+                stepDiv.style.display = 'none'; // Ẩn tất cả các bước
+            });
+            document.getElementById('step' + step).style.display = 'block'; // Hiện bước tiếp theo
+
+            if (step === 4) {
+                fillSummary(); // Gọi fillSummary để cập nhật tóm tắt ở bước 4
+                $('.image-slider').slick('setPosition'); // Đặt lại vị trí của slider để hiển thị các hình ảnh mới
+            }
+        }
+
+        function prevStep(step) {
+            document.querySelectorAll('.step').forEach(function (stepDiv) {
+                stepDiv.style.display = 'none'; // Ẩn tất cả các bước
+            });
+            document.getElementById('step' + step).style.display = 'block'; // Hiện bước trước
+        }
+
+        function validateStep(step) {
+            const inputs = document.querySelectorAll(`#step${step} input[required], #step${step} select[required]`);
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (input.type === "file") {
+                    // For file inputs, check if there's a selected file
+                    if (input.files.length === 0) {
+                        isValid = false;
+                        alert("Please upload all required images.");
+                    }
+                } else if (input.value.trim() === '') {
+                    isValid = false;
+                }
+            });
+            return isValid;
+        }
+
+
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block'; // Show preview
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none'; // Hide preview
+            }
+        }
+
+        function fillSummary() {
+            const summaryData = {
+                brand: document.getElementById('carBrand').value,
+                model: document.getElementById('carModel').value,
+                year: document.getElementById('carYear').value,
+                vin: document.getElementById('carVIN').value,
+                color: document.getElementById('color').value,
+                mileage: document.getElementById('mileage').value,
+                price: document.getElementById('carPrice').value,
+                deposit: document.getElementById('deposit').value,
+                seats: document.getElementById('carSeats').value,
+                description: document.getElementById('description').value,
+                transmission: document.getElementById('transmission').value,
+                fuelType: document.getElementById('fuel').value,
+                fuelConsumption: document.getElementById('fuelConsumption').value,
+                address: document.getElementById('address').value,
+                additional_functions: document.getElementById('additional_functions').value,
+                type: document.getElementById('type').value,
+            };
+
+            document.getElementById('summary').innerHTML = `
+        <strong>Car Brand:</strong> ${summaryData.brand}<br>
+        <strong>Model:</strong> ${summaryData.model}<br>
+        <strong>Year:</strong> ${summaryData.year}<br>
+        <strong>VIN:</strong> ${summaryData.vin}<br>
+        <strong>Color:</strong> ${summaryData.color}<br>
+        <strong>Car Type:</strong> ${summaryData.type}<br>
+        <strong>Mileage:</strong> ${summaryData.mileage} km<br>
+        <strong>Rental Price:</strong> $${summaryData.price} per day<br>
+        <strong>Deposit:</strong> $${summaryData.deposit}<br>
+        <strong>Seats:</strong> ${summaryData.seats}<br>
+        <strong>Description:</strong> ${summaryData.description}<br>
+        <strong>Transmission:</strong> ${summaryData.transmission}<br>
+        <strong>Fuel Type:</strong> ${summaryData.fuelType}<br>
+        <strong>Fuel Consumption:</strong> ${summaryData.fuelConsumption} L/100 km<br>
+        <strong>Additional Functions:</strong> ${summaryData.additional_functions}<br>
+        <strong>Address:</strong> ${summaryData.address}<br>
+    `;
+
+            // Update preview images for the summary in Step 4
+            document.getElementById('previewFrontStep4').src = document.getElementById('previewFrontStep3').src;
+            document.getElementById('previewBackStep4').src = document.getElementById('previewBackStep3').src;
+            document.getElementById('previewLeftStep4').src = document.getElementById('previewLeftStep3').src;
+            document.getElementById('previewRightStep4').src = document.getElementById('previewRightStep3').src;
+
+            // // Show the images if they are not empty
+            // ['Front', 'Back', 'Left', 'Right'].forEach(view => {
+            //     const previewImage = document.getElementById(`preview${view}Step4`);
+            //     previewImage.style.display = previewImage.src ? 'block' : 'none';
+            // });
+        }
+
+    </script>
+</div>
+</body>
+</html>

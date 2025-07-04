@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Home page</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <style>
+        .benefits {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .benefit {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 280px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit h3 {
+            font-size: 25px;
+            margin-top: 0;
+        }
+
+        .cta {
+            margin-top: 20px;
+        }
+
+        .cta button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cta button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+    <!-- Carousel Start -->
+    <!-- Carousel End -->
+    <!-- About Start -->
+    <div class="container-fluid py-3">
+        <div class="container pt-5 pb-3">
+            <h1 class="display-4 text-uppercase text-center mb-6">Have a car for rent?</h1>
+            <h1 class="display-4 text-uppercase text-center mb-6"><span
+                    class="text-primary">Don't miss out on your benefit</span></h1>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <img class="w-75 mb-4" src="img/about.png" alt="">
+                </div>
+            </div>
+            <div class="benefits mt-3">
+                <div class="benefit">
+                    <h3>💵 How the insurance works</h3>
+                    <p>From the minute you hand the keys over till the second you get them back you are covered. Your
+                        private insurance is not affected.</p>
+                </div>
+                <div class="benefit">
+                    <h3>🔒 It's completely free</h3>
+                    <p>We offer both owners and renters free sign ups. It's only once a vehicle is rented out that a
+                        share is deducted to cover admin and insurance.</p>
+                </div>
+                <div class="benefit">
+                    <h3>💰 You decide the price</h3>
+                    <p>When you list a car you decide the price. We can help with recommendations as to price, but
+                        ultimately you decide!</p>
+                </div>
+                <div class="benefit">
+                    <h3>🔄 Handing over your vehicle</h3>
+                    <p>You arrange the time and location for the exchange of your vehicle with the renter. Both parties
+                        will need to agree and sign the vehicle rental sheet before and after key handover.</p>
+                </div>
+                <div class="benefit">
+                    <h3>🔑 You are in charge</h3>
+                    <p>All renters are pre-screened by us to ensure safety and get your approval. If you do not feel
+                        comfortable with someone you are able to decline a booking.</p>
+                </div>
+                <div class="benefit">
+                    <h3>📅 Set payment</h3>
+                    <p>We pay you once a month and you can always view how much your car has earned under your user
+                        profile.</p>
+                </div>
+            </div>
+            <div class="cta mt-5" style="text-align: center;">
+                <a class="btn btn-primary py-2 px-4" th:href="@{/car-owner/list-rented-car}">List of Rented</a>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+    <div th:replace="~{component/contact :: contact}"></div>
+
+</th:block>
+</body>

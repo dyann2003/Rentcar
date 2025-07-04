@@ -1,0 +1,62 @@
+<!-- Modal -->
+<div th:fragment="addressDelivery" class="modal fade" id="addressDelivery" tabindex="-1"
+     aria-labelledby="addressDeliveryModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addressDeliveryModalLabel">Địa điểm giao nhận xe</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="option-card" onclick="selectOption(this)">
+                    <label class="checkbox-label">
+                        <input type="radio" name="location" class="checkbox-input">
+                        <div class="option-content">
+                            <h4>Giao xe tận nơi</h4>
+                            <div class="pt-2" style="max-height: 300px; overflow-y: auto; position: relative;">
+                                <i class="fas fa-map-marker-alt"
+                                   style="position: absolute; left: 15px; top: 55%; transform: translateY(-50%); color: black; font-size: larger"></i>
+                                <input class="input-with-icon" id="myAddress" data-toggle="modal"
+                                       data-target="#addressModal"
+                                       placeholder="Nhập và chọn địa chỉ bạn muốn" style="cursor: pointer"
+                                       onclick="searchCar()">
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="option-card selected" onclick="selectOption(this)">
+                    <label class="checkbox-label">
+                        <input type="radio" name="location" class="checkbox-input" checked>
+                        <div class="option-content">
+                            <h4>Nhận xe tại vị trí chủ xe</h4>
+                            <h4 id="carOwnerAddress" style="font-size: x-large; padding-top: 5px;"
+                                th:text="${myCar.getAddress()}"></h4>
+                            <p>Bạn sẽ nhận và trả xe tại vị trí xe.</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="applyAddress()" class="btn btn-success">Thay đổi</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectOption(selectedCard) {
+            // Remove 'selected' class from all option cards
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+                card.querySelector('.checkbox-input').checked = false;
+            });
+
+            // Add 'selected' class to the clicked card and check its radio input
+            selectedCard.classList.add('selected');
+            selectedCard.querySelector('.checkbox-input').checked = true;
+        }
+    </script>
+</div>

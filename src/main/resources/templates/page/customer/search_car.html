@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Search</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="/js/fitler_search_car.js"></script>
+    <link href="/css/fitler-search-car.css" rel="stylesheet">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container-fluid pt-3">
+        <div style="position: sticky; top: 0; z-index: 4; background-color: white;">
+            <form th:action="@{/cars/search}" class="col-md-12 d-flex justify-content-center align-items-center">
+                <div class="row">
+                    <div class="m-1 d-flex align-items-center">
+                        <i class="fas fa-map-marker-alt"
+                           style="color: black; font-size: x-large; padding: 0 10px;"></i>
+                        <div class="flex-grow-1">
+                            <input type="text" class="form-control p-4" id="address" placeholder="Chọn Địa Chỉ"
+                                   name="address"
+                                   style="height: 50px; background-color: white; border: 0; width: 290px; cursor: pointer"
+                                   th:value="${address}"
+                                   onclick="showSeachCar()" readonly>
+                        </div>
+                    </div>
+                    <div class="m-1 d-flex align-items-center">
+                        <i class="fas fa-calendar" style="color: black; font-size: x-large; padding: 0 10px;"></i>
+                        <div class="flex-grow-1">
+                            <input type="text" class="form-control p-4" id="rentalInput"
+                                   data-toggle="modal" data-target="#rentalModal" placeholder="Chọn ngày" name="time"
+                                   onclick="transferDate()"
+                                   style="background-color: white; border: 0; width: 350px; cursor: pointer"
+                                   th:value="${time}" readonly/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="m-1 pl-4 d-flex justify-content-center">
+                            <button name="search" class="btn btn-primary btn-block" id="search" type="submit"
+                                    style="height: 50px; width: 200px; border-radius: 20px">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="checkbox-section mt-3 col-md-12 d-flex justify-content-center align-items-center">
+                <label class="filter-button" data-toggle="modal" data-target="#advancedCarFilter">
+                    <input type="checkbox" name="filter" value="LocNangCao" hidden>
+                    <i class="fa-solid fa-sliders"></i> Bộ lọc
+                </label>
+                <label th:class="${types != null ? 'active filter-button type' : 'filter-button type'}"
+                       data-toggle="modal" data-target="#carType">
+                    <input type="checkbox" name="filter" value="LoaiXe" hidden>
+                    <i class="fas fa-car"></i> Loại xe
+                </label>
+                <label th:class="${brands != null ? 'active filter-button brand' : 'filter-button brand'}"
+                       data-toggle="modal" data-target="#carBrand">
+                    <input type="checkbox" name="filter" value="HangXe" hidden>
+                    <i class="fas fa-globe"></i> Hãng xe
+                </label>
+                <label th:if="${brands != null}"
+                       th:class="${carModel != null ? 'active filter-button brand' : 'filter-button brand'}"
+                       data-toggle="modal" data-target="#carModel">
+                    <input type="checkbox" name="filter" value="HangXe" hidden>
+                    <i class="fa fa-gear"></i> Mẫu xe
+                </label>
+                <label th:class="${electricCar != null ? 'active filter-button no-model' : 'filter-button no-model'}">
+                    <input type="checkbox" name="filter" value="Electric"
+                           onchange="searchWithOtherCondition('electricCar', 'true')" hidden>
+                    <i class="fas fa-charging-station"></i> Xe điện
+                </label>
+                <label th:class="${traditionalCar != null ? 'active filter-button no-model' : 'filter-button no-model'}">
+                    <input type="checkbox" name="filter" value="notElectric"
+                           onchange="searchWithOtherCondition('traditionalCar', 'true')"
+                           hidden>
+                    <i class="fa-solid fa-car-side"></i> Xe truyền thống
+                </label>
+                <label th:class="${rateFiveStar != null ? 'active filter-button no-model' : 'filter-button no-model'}">
+                    <input type="checkbox" name="filter" value="ChuXe5Sao"
+                           onchange="searchWithOtherCondition('rateFiveStar', 'true')" hidden>
+                    <i class="fas fa-crown"></i> Xe 5 sao
+                </label>
+                <label th:class="${deliver != null ? 'active filter-button no-model' : 'filter-button no-model'}">
+                    <input type="checkbox" name="filter" value="GiaoNhanTanNoi"
+                           onchange="searchWithOtherCondition('delivery', 'true')"
+                           hidden>
+                    <i class="fas fa-truck"></i> Giao nhận xe tận nơi
+                </label>
+            </div>
+            <hr style="border-top: 2px solid #ccc; margin:0 0 20px 0;"> <!-- Đường kẻ ngăn cách -->
+        </div>
+        <div class="container pt-3" style="max-width: 1220px">
+            <section th:replace="~{component/empty_data}"></section>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-2" th:each="car : ${resultPage.content}">
+                    <div class="rent-item mb-4" style="border-radius: 25px">
+                        <a th:href="@{/cars/detail(id=${car.id}, address=${address}, time=${time})}"
+                           style="text-decoration: none">
+                            <div th:if="${car.imagePaths != null and !car.imagePaths.isEmpty()}">
+                                <img style="bottom: 15px;" class="img-fluid mb-3 image-size-search"
+                                     th:src="@{${car.imagePaths[0]}}"
+                                     alt="Car Image"/>
+                            </div>
+                            <div th:unless="${car.imagePaths != null and !car.imagePaths.isEmpty()}">
+                                <p>No images available</p>
+                            </div>
+                            <div class="d-flex justify-content-start">
+                                <p class="transmission_type"
+                                   th:text="${car.transmissionType == 'Manual' ? 'Số sàn' : car.transmissionType == 'Automatic' ? 'Số tự động' : ''}"
+                                   th:style="${car.transmissionType == 'Manual' ? 'background-color: #a0f898;' : ''}"></p>
+                                <p class="transmission_type"
+                                   th:if="${car.isDelivery()}"
+                                   th:text="'Giao xe tận nơi'"
+                                   th:style="${car.isDelivery() ? 'background-color: #fddf99;' : ''}"></p>
+
+                            </div>
+
+                            <h4 style="font-size: 17px; text-align: start" class="text-uppercase mb-1">
+                                <span th:text="${car.brand.brandName}"></span>
+                                <span th:text="${car.model.name}"></span>
+                            </h4>
+                            <div class="d-flex justify-content-start" style="font-size: 11px">
+                                <i style="align-content: center; color: black" class="fas fa-map-marker-alt mr-2"></i>
+                                <p style="margin-bottom: 0; color: rgb(89 81 81 / 92%);" class="searchCarAddress"
+                                   th:text="${car.address}"></p>
+                            </div>
+
+                            <hr style="border: 0; border-top: 1px solid #8c8888; margin: 10px 0;">
+                            <div class="d-flex justify-content-start mb-3" style="font-size: 14px">
+                                <div class="d-flex justify-content-start"
+                                     th:if="${car.rating != null and car.rating != null}">
+                                    <i style="align-content: center; color: #fdbe37" class="fa-solid fa-star mr-1"></i>
+                                    <p style="margin-bottom: 0; color: rgb(89 81 81 / 92%); align-content: center; font-size: 12px"
+                                       th:text="${car.rating}"></p>
+                                </div>
+                                <div class="d-flex justify-content-start"
+                                     th:if="${car.rating != null and listCount.containsKey(car.id)}">
+                                    <span style="color: rgb(89 81 81 / 92%); margin: 0 2px">•</span>
+                                </div>
+                                <div class="d-flex justify-content-start"
+                                     th:if="${car.rating == null and !listCount.containsKey(car.id)}">
+                                    <span style="color: rgb(89 81 81 / 92%); font-size: 12px; align-content: center">Chưa có chuyến</span>
+                                </div>
+                                <div class="d-flex justify-content-start"
+                                     th:if="${listCount.containsKey(car.id)}">
+                                    <i class="fa-solid fa-car-side"
+                                       style="align-content: center; color: #f8a553; margin-right: 2px"></i>
+                                    <p style="margin-bottom: 0; color: rgb(89 81 81 / 92%); align-content: center; font-size: 12px"
+                                       th:text="${listCount.get(car.id)} + ' chuyến'"></p>
+                                </div>
+                                <div class="d-flex justify-content-start" style="margin-left: auto;">
+                                    <p style="margin-bottom: 0; color: #f88753; font-size: 17px; font-weight: bolder"
+                                       th:text="*{#numbers.formatInteger(car.pricePerDay / 1000.0, 3, 'POINT') + 'K'}"></p>
+                                    <span style="color: rgb(89 81 81 / 92%); font-size: 12px; margin: 0 2px; align-content: center">/ngày</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div th:replace="~{model/pick_time_search :: picktime}"></div>
+            <div th:replace="~{model/pick_address_search :: pickAddress}"></div>
+            <section th:if="${brands != null}" th:replace="~{model/Customer/select_car_model}"></section>
+            <section th:replace="~{model/Customer/select_car_type :: carType}"></section>
+            <section th:replace="~{model/Customer/select_car_brand :: carBrand}"></section>
+            <section th:replace="~{model/Customer/advanced_car_fitler :: advancedCarFilter}"></section>
+            <section id="pagination" class="container mt-2 mb-5" th:if="${resultPage.totalPages > 1}">
+                <div th:replace="~{component/pagination :: pagination}"></div>
+            </section>
+        </div>
+    </div>
+</th:block>
+</body>

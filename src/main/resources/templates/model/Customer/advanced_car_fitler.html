@@ -1,0 +1,113 @@
+<div th:fragment="advancedCarFilter" class="modal fade" id="advancedCarFilter" tabindex="-1"
+     aria-labelledby="advancedCarFilterModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px">
+        <div class="modal-content" style="border-radius: 20px">
+            <div class="modal-header" style="font-size: 82px; padding: 14px 1rem;">
+                <h5 class="modal-title" style="margin-bottom: 0; font-size: 30px" id="advancedCarFilterModalLabel">Bộ
+                    lọc nâng cao</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body custom-scroll">
+                <!-- Mức giá -->
+                <div class="filter-section">
+                    <label for="priceRange" class="filter-label">Mức giá</label>
+                    <div class="range-input">
+                        <input type="text" id="minPrice" placeholder="Giá thấp nhất" value="300K"/>
+                        <span>-</span>
+                        <input type="text" id="maxPrice" placeholder="Giá cao nhất" value="3000K"/>
+                    </div>
+                    <input type="range" id="priceRange" min="0" max="3000" value="300"/>
+                </div>
+
+                <!-- Giới hạn số km -->
+                <div class="filter-section">
+                    <label for="kmLimit" class="filter-label">Giới hạn số km</label>
+                    <input type="text" id="kmLimit" placeholder="Bất kì" disabled/>
+                </div>
+
+                <!-- Khoảng cách -->
+                <div class="filter-section">
+                    <label for="distance" class="filter-label">Khoảng cách</label>
+                    <input type="text" id="distance" placeholder="Bất kì" disabled/>
+                </div>
+
+                <!-- Số chỗ -->
+                <div class="filter-section">
+                    <label for="seatCount" class="filter-label">Số chỗ</label>
+                    <input type="range" id="seatCount" min="2" max="7" value="4"/>
+                </div>
+                <!-- Số chỗ -->
+                <div class="filter-section">
+                    <label class="filter-label">Số chỗ</label>
+                    <div class="range-input">
+                        <input type="text" id="minSeats" placeholder="Tối thiểu" value="2"/>
+                        <span>-</span>
+                        <input type="text" id="maxSeats" placeholder="Tối đa" value="10"/>
+                    </div>
+                    <input type="range" id="seatRange" min="2" max="10" value="5"/>
+                </div>
+
+                <!-- Năm sản xuất -->
+                <div class="filter-section">
+                    <label class="filter-label">Năm sản xuất</label>
+                    <div class="range-input">
+                        <input type="text" id="minYear" placeholder="Tối thiểu" value="2005"/>
+                        <span>-</span>
+                        <input type="text" id="maxYear" placeholder="Tối đa" value="2024"/>
+                    </div>
+                    <input type="range" id="yearRange" min="2000" max="2024" value="2015"/>
+                </div>
+
+                <!-- Mức tiêu thụ nhiên liệu -->
+                <div class="filter-section">
+                    <label class="filter-label">Mức tiêu thụ nhiên liệu</label>
+                    <input type="text" id="fuelConsumption" placeholder="Từ dưới 30L/100km" disabled/>
+                </div>
+
+                <!-- Tính năng -->
+                <div class="filter-section">
+                    <label class="filter-label">Tính năng</label>
+                    <div class="features-grid">
+                        <label><input type="checkbox"/> Bản đồ</label>
+                        <label><input type="checkbox"/> Bluetooth</label>
+                        <label><input type="checkbox"/> Camera 360</label>
+                        <label><input type="checkbox"/> Camera cấp lề</label>
+                        <label><input type="checkbox"/> Camera hành trình</label>
+                        <label><input type="checkbox"/> Camera lùi</label>
+                        <label><input type="checkbox"/> Cảm biến lốp</label>
+                        <label><input type="checkbox"/> Cảm biến va chạm</label>
+                        <label><input type="checkbox"/> Cảnh báo tốc độ</label>
+                        <label><input type="checkbox"/> Cửa sổ trời</label>
+                        <label><input type="checkbox"/> Định vị GPS</label>
+                        <label><input type="checkbox"/> Ghế trẻ em</label>
+                        <label><input type="checkbox"/> Khe cắm USB</label>
+                        <label><input type="checkbox"/> Lốp dự phòng</label>
+                        <label><input type="checkbox"/> Màn hình DVD</label>
+                        <label><input type="checkbox"/> Túi khí an toàn</label>
+                    </div>
+                </div>
+
+                <!-- Nhiên liệu -->
+                <div class="filter-section">
+                    <label class="filter-label">Nhiên liệu</label>
+                    <div class="fuel-options">
+                        <label><input type="radio" name="fuel" checked/> Tất cả</label>
+                        <label><input type="radio" name="fuel"/> Xăng</label>
+                        <label><input type="radio" name="fuel"/> Dầu Diesel</label>
+                        <label><input type="radio" name="fuel"/> Điện</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <a style="cursor: pointer" id="confirmCancelLink"
+                   type="button" class="btn btn-primary">Xác nhận</a>
+            </div>
+        </div>
+    </div>
+</div>

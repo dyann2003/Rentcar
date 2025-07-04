@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar-brand img {
+    width: 30px;
+    margin-right: 10px;
+}
+
+.current-balance {
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+.balance {
+    font-size: 2rem;
+}
+
+.transactions-section {
+    margin-top: 30px;
+}
+
+footer {
+    background-color: #e9ecef;
+    padding: 20px;
+}
+
+footer p {
+    margin: 5px 0;
+}
+
+.button-group button {
+    width: 100px;
+    margin: 0 5px;
+}

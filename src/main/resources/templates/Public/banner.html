@@ -1,0 +1,22 @@
+<section th:fragment="public_banner" class="banner mt-4" xmlns="http://www.w3.org/1999/html">
+    <!-- Banner Start -->
+    <div class="container banner-guest" >
+        <div class="row no-gutters" >
+            <div class="col-md-6 left-section text-center d-flex flex-column justify-content-center">
+                <h2 style="color: white">Looking for a vehicle? <br> You're at the right place.</h2>
+                <p style="color: white">Choose between 100's of private cars for rent at really low prices!</p>
+                <div class="d-flex justify-content-center">
+                    <a th:href="@{/login}" class="btn btn-primary button-banner-guest">Find a Rental Car Near You</a>
+                </div>
+            </div>
+            <div class="col-md-6 right-section text-center d-flex flex-column justify-content-center">
+                <h2 style="color: white">Are you a car owner?</h2>
+                <p style="color: white">List your car and make money from your asset today!</p>
+                <div class="d-flex justify-content-center">
+                    <a th:href="@{/login}" class="btn btn-primary button-banner-guest">List Your Car Today</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Banner End -->
+</section>

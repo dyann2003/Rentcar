@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+  <title>Home page</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+<th:block layout:fragment="content">
+  <!-- About Start -->
+  <div class="container-fluid py-3">
+    <div class="container pt-5 pb-3">
+      <h1 class="display-1 text-primary text-center">01</h1>
+      <h1 class="display-4 text-uppercase text-center mb-5">Welcome To <span
+              class="text-primary">Swift Rent</span></h1>
+      <div class="row justify-content-center">
+        <div class="col-lg-10 text-center">
+          <img class="w-75 mb-4" src="img/about.png" alt="">
+          <p>Swift Rent is a leading car rental service provider in Vietnam, offering a wide range of
+            vehicles from economy cars to luxury models. With a commitment to quality and customer
+            satisfaction, we ensure that every vehicle is well-maintained and reliable. Our services cater
+            to both individuals and businesses, including short-term and long-term
+            rentals, with or without a driver. We also offer airport pickup and drop-off services for added
+            convenience. At Swift Rent, we prioritize customer needs and aim to provide safe, convenient,
+            and
+            affordable car rental solutions. Contact us today for the best rental deals!.</p>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-lg-4 mb-2">
+          <div class="d-flex align-items-center p-4 mb-4" style="height: 150px; background-color: #2c2f4e">
+            <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary ml-n4 mr-4"
+                 style="width: 100px; height: 100px;">
+              <i class="fa fa-2x fa-headset text-secondary"></i>
+            </div>
+            <h4 class="text-light text-uppercase m-0">24/7 Car Rental Support</h4>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-2">
+          <div class="d-flex align-items-center p-4 mb-4" style="height: 150px; background-color: #2c2f4e">
+            <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary ml-n4 mr-4"
+                 style="width: 100px; height: 100px;">
+              <i class="fa fa-2x fa-car text-secondary"></i>
+            </div>
+            <h4 class="text-light text-uppercase m-0">Car Reservation Anytime</h4>
+          </div>
+        </div>
+        <div class="col-lg-4 mb-2">
+          <div class="d-flex align-items-center p-4 mb-4" style="height: 150px; background-color: #2c2f4e">
+            <div class="d-flex align-items-center justify-content-center flex-shrink-0 bg-primary ml-n4 mr-4"
+                 style="width: 100px; height: 100px;">
+              <i class="fa fa-2x fa-map-marker-alt text-secondary"></i>
+            </div>
+            <h4 class="text-light text-uppercase m-0">Lots Of Pickup Locations</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- About End -->
+
+
+  <!-- Services Start -->
+  <div class="container-fluid py-3">
+    <div class="container pt-5 pb-3">
+      <h1 class="display-1 text-primary text-center">02</h1>
+      <h1 class="display-4 text-uppercase text-center mb-5">Why Us?</h1>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 mb-2">
+          <div class="service-item active d-flex flex-column px-4 mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 mt-3">
+              <div class="d-flex align-items-center justify-content-center bg-primary ml-n4"
+                   style="width: 80px; height: 80px;">
+                <i class="fa fa-2x fa-money-check-alt text-secondary"></i>
+              </div>
+              <h1 class="display-2 text-white mt-n2 m-0">01</h1>
+            </div>
+            <h4 class="text-uppercase mb-3">Car Financing</h4>
+            <p class="m-0">We offer some of the best rates in the market, with flexible rental packages to
+              suit every budget, whether you need a vehicle for a day or long-term. Our frequent
+              promotions and discounts ensure that you get maximum value for your money without
+              sacrificing quality.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-2">
+          <div class="service-item active d-flex flex-column px-4 mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 mt-3">
+              <div class="d-flex align-items-center justify-content-center bg-primary ml-n4"
+                   style="width: 80px; height: 80px;">
+                <i class="fa fa-2x fa-car text-secondary"></i>
+              </div>
+              <h1 class="display-2 text-white mt-n2 m-0">02</h1>
+            </div>
+            <h4 class="text-uppercase mb-3">Car Quality</h4>
+            <p class="m-0">All our vehicles are regularly maintained and go through strict quality checks
+              before every rental. We ensure that each car is in optimal condition, providing you with a
+              safe, reliable, and comfortable driving experience every time.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-2">
+          <div class="service-item active d-flex flex-column px-4 mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 mt-3">
+              <div class="d-flex align-items-center justify-content-center bg-primary ml-n4"
+                   style="width: 80px; height: 80px;">
+                <i class="fa fa-2x fa-file-alt text-secondary"></i>
+              </div>
+              <h1 class="display-2 text-white mt-n2 m-0">03</h1>
+            </div>
+            <h4 class="text-uppercase mb-3">Policies</h4>
+            <p class="m-0">Our rental policies are clear and customer-focused, with no hidden fees or
+              complicated terms. Whether you’re renting short-term or long-term, with or without a driver,
+              we provide a seamless and transparent rental process to meet your needs with ease and
+              confidence.</p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-2">
+          <div class="service-item active d-flex flex-column px-4 mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3 mt-3">
+              <div class="d-flex align-items-center justify-content-center bg-primary ml-n4"
+                   style="width: 80px; height: 80px;">
+                <i class="fa fa-2x fa-headset text-secondary"></i>
+              </div>
+              <h1 class="display-2 text-white mt-n2 m-0">04</h1>
+            </div>
+            <h4 class="text-uppercase mb-3">Support</h4>
+            <p class="m-0">24/7 customer support. whether you need assistance on the road, have questions
+              about your rental, or face any unexpected issues, our dedicated support team is always
+              available to help you, ensuring peace of mind throughout your entire rental period.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Services End -->
+
+  <!-- Testimonial Start -->
+  <div class="container-fluid py-3">
+    <div class="container py-5">
+      <h1 class="display-1 text-primary text-center">03</h1>
+      <h1 class="display-4 text-uppercase text-center mb-5">What people say?</h1>
+      <div class="owl-carousel testimonial-carousel">
+        <div class="testimonial-item d-flex flex-column justify-content-center px-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <img class="img-fluid ml-n4" src="/img/testimonial-1.jpg" alt="">
+            <h1 class="display-2 text-white m-0 fa fa-quote-right"></h1>
+          </div>
+          <h4 class="text-uppercase mb-2">Client Name</h4>
+          <i class="mb-2">Profession</i>
+          <p class="m-0">Kasd dolor no lorem nonumy sit labore tempor at justo rebum rebum stet, justo elitr
+            dolor amet sit sea sed</p>
+        </div>
+        <div class="testimonial-item d-flex flex-column justify-content-center px-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <img class="img-fluid ml-n4" src="/img/testimonial-2.jpg" alt="">
+            <h1 class="display-2 text-white m-0 fa fa-quote-right"></h1>
+          </div>
+          <h4 class="text-uppercase mb-2">Client Name</h4>
+          <i class="mb-2">Profession</i>
+          <p class="m-0">Kasd dolor no lorem nonumy sit labore tempor at justo rebum rebum stet, justo elitr
+            dolor amet sit sea sed</p>
+        </div>
+        <div class="testimonial-item d-flex flex-column justify-content-center px-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <img class="img-fluid ml-n4" src="/img/testimonial-3.jpg" alt="">
+            <h1 class="display-2 text-white m-0 fa fa-quote-right"></h1>
+          </div>
+          <h4 class="text-uppercase mb-2">Client Name</h4>
+          <i class="mb-2">Profession</i>
+          <p class="m-0">Kasd dolor no lorem nonumy sit labore tempor at justo rebum rebum stet, justo elitr
+            dolor amet sit sea sed</p>
+        </div>
+        <div class="testimonial-item d-flex flex-column justify-content-center px-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <img class="img-fluid ml-n4" src="/img/testimonial-4.jpg" alt="">
+            <h1 class="display-2 text-white m-0 fa fa-quote-right"></h1>
+          </div>
+          <h4 class="text-uppercase mb-2">Client Name</h4>
+          <i class="mb-2">Profession</i>
+          <p class="m-0">Kasd dolor no lorem nonumy sit labore tempor at justo rebum rebum stet, justo elitr
+            dolor amet sit sea sed</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Testimonial End -->
+
+  <!-- Rent A Car Start -->
+  <div class="container-fluid py-3">
+    <div class="container pt-5 pb-3">
+      <h1 class="display-1 text-primary text-center">04</h1>
+      <h1 class="display-4 text-uppercase text-center mb-5">Where to find us?</h1>
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-2">
+          <div class="rent-item mb-2">
+            <img class="img-fluid mb-4 image-size" src="/images/location/Ha-noi.jpg" alt="">
+            <div class="d-flex justify-content-start">
+              <h4 class="text-uppercase">Hà Nội</h4>
+            </div>
+            <div class="d-flex justify-content-start">
+              <div>
+                <span>80+ cars</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-2">
+          <div class="rent-item mb-2">
+            <img class="img-fluid mb-4 image-size" src="/images/location/ho-chi-minh.jpg" alt="">
+            <div class="d-flex justify-content-start">
+              <h4 class="text-uppercase">Hồ Chí Minh</h4>
+            </div>
+            <div class="d-flex justify-content-start">
+              <div>
+                <span>100+ cars</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-2">
+          <div class="rent-item mb-2">
+            <img class="img-fluid mb-4 image-size" src="/images/location/Da-nang.jpg" alt="">
+            <div class="d-flex justify-content-start">
+              <h4 class="text-uppercase">Đà Nẵng - Hội An</h4>
+            </div>
+            <div class="d-flex justify-content-start">
+              <div>
+                <span>90+ cars</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-2">
+          <div class="rent-item mb-2">
+            <img class="img-fluid mb-4 image-size" src="/images/location/nha-trang.jpg" alt="">
+            <div class="d-flex justify-content-start">
+              <h4 class="text-uppercase">Nha Trang</h4>
+            </div>
+            <div class="d-flex justify-content-start">
+              <div>
+                <span>50+ cars</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-2">
+          <div class="rent-item mb-2">
+            <img class="img-fluid mb-4 image-size" src="/images/location/da-lat.jpg" alt="">
+            <div class="d-flex justify-content-start">
+              <h4 class="text-uppercase">Đà Lạt</h4>
+            </div>
+            <div class="d-flex justify-content-start">
+              <div>
+                <span>80+ cars</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-2">
+          <div class="rent-item mb-2">
+            <img class="img-fluid mb-4 image-size" src="/images/location/Quang-ninh.jpg" alt="">
+            <div class="d-flex justify-content-start">
+              <h4 class="text-uppercase">Quảng Ninh</h4>
+            </div>
+            <div class="d-flex justify-content-start">
+              <div>
+                <span>80+ cars</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Rent A Car End -->
+
+
+  <!-- Contact Start -->
+  <div class="container-fluid py-3">
+    <div class="container pt-5 pb-3">
+      <h1 class="display-1 text-primary text-center">05</h1>
+      <h1 class="display-4 text-uppercase text-center mb-5">Contact Us</h1>
+      <div class="row">
+        <div class="col-lg-7 mb-2">
+          <div class="contact-form bg-light mb-4" style="padding: 30px;">
+            <form>
+              <div class="row">
+                <div class="col-6 form-group">
+                  <input type="text" class="form-control p-4" placeholder="Your Name"
+                         required="required">
+                </div>
+                <div class="col-6 form-group">
+                  <input type="email" class="form-control p-4" placeholder="Your Email"
+                         required="required">
+                </div>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control p-4" placeholder="Subject" required="required">
+              </div>
+              <div class="form-group">
+                                <textarea class="form-control py-3 px-4" rows="5" placeholder="Message"
+                                          required="required"></textarea>
+              </div>
+              <div>
+                <button class="btn btn-primary py-3 px-5" type="submit">Send Message</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-5 mb-2">
+          <div class="bg-secondary d-flex flex-column justify-content-center px-5 mb-4"
+               style="height: 435px;">
+            <div class="d-flex mb-3">
+              <i class="fa fa-2x fa-map-marker-alt text-primary flex-shrink-0 mr-3"></i>
+              <div class="mt-n1">
+                <h5 class="text-light">Head Office</h5>
+                <p>123 Street, New York, USA</p>
+              </div>
+            </div>
+            <div class="d-flex mb-3">
+              <i class="fa fa-2x fa-map-marker-alt text-primary flex-shrink-0 mr-3"></i>
+              <div class="mt-n1">
+                <h5 class="text-light">Branch Office</h5>
+                <p>123 Street, New York, USA</p>
+              </div>
+            </div>
+            <div class="d-flex mb-3">
+              <i class="fa fa-2x fa-envelope-open text-primary flex-shrink-0 mr-3"></i>
+              <div class="mt-n1">
+                <h5 class="text-light">Customer Service</h5>
+                <p>customer@example.com</p>
+              </div>
+            </div>
+            <div class="d-flex">
+              <i class="fa fa-2x fa-envelope-open text-primary flex-shrink-0 mr-3"></i>
+              <div class="mt-n1">
+                <h5 class="text-light">Return & Refund</h5>
+                <p class="m-0">refund@example.com</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Contact End -->
+
+
+  <!-- Vendor Start -->
+  <div class="container-fluid py-3">
+    <div class="container py-5">
+      <div class="owl-carousel vendor-carousel">
+        <div class="bg-light p-4">
+          <img src="/img/vendor-1.png" alt="">
+        </div>
+        <div class="bg-light p-4">
+          <img src="/img/vendor-2.png" alt="">
+        </div>
+        <div class="bg-light p-4">
+          <img src="/img/vendor-3.png" alt="">
+        </div>
+        <div class="bg-light p-4">
+          <img src="/img/vendor-4.png" alt="">
+        </div>
+        <div class="bg-light p-4">
+          <img src="/img/vendor-5.png" alt="">
+        </div>
+        <div class="bg-light p-4">
+          <img src="/img/vendor-6.png" alt="">
+        </div>
+        <div class="bg-light p-4">
+          <img src="/img/vendor-7.png" alt="">
+        </div>
+        <div class="bg-light p-4">
+          <img src="/img/vendor-8.png" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Vendor End -->
+</th:block>
+</body>

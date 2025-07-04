@@ -1,0 +1,87 @@
+<div th:fragment="cancelBookingDocumentPolicy" class="modal fade" id="cancelBookingDocumentPolicy" tabindex="-1"
+     aria-labelledby="cancelBookingDocumentPolicyModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 700px">
+        <div class="modal-content">
+            <div class="modal-header" style="font-size: 82px; padding: 7px 1rem;">
+                <h5 class="modal-title" style="margin-bottom: 0" id="cancelBookingDocumentPolicyModalLabel">Chính sách
+                    hủy chuyến</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/booking/update_status_booking" method="GET" id="cancelBookingForm"
+                  onsubmit="return validateCancelForm()">
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Thời Điểm Hủy Chuyến</th>
+                            <th>Phí Hủy Chuyến</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Trong Vòng 1h Sau Giữ Chỗ</td>
+                            <td>
+                                <span style="color: green;">&#10004;</span> Miễn phí
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Trước Chuyến Đi &gt; 7 Ngày<br><span style="font-style: italic;">(Sau 1h Giữ Chỗ)</span>
+                            </td>
+                            <td>
+                                <span style="color: green;">&#10004;</span> 30% tiền đặt cọc
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Trong Vòng 7 Ngày Trước Chuyến Đi<br><span
+                                    style="font-style: italic;">(Sau 1h Giữ Chỗ)</span></td>
+                            <td>
+                                <span style="color: red;">&#10008;</span> 50% giá trị chuyến đi
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p><strong><u>Chú ý:</u></strong></p>
+                    <ul>
+                        <li>Chính sách hủy chuyến áp dụng chung cho cả khách thuê và chủ xe (ngoài ra, tùy vào thời điểm
+                            hủy
+                            chuyến, chủ xe có thể bị đánh giá từ 2-3* trên hệ thống).
+                        </li>
+                        <li>Khách thuê không nhận xe sẽ mất phí hủy chuyến (50% giá trị chuyến đi).</li>
+                        <li>Chủ xe không giao xe sẽ hoàn tiền giữ chỗ & bồi thường phí hủy chuyến cho khách thuê (33%
+                            giá
+                            trị chuyến đi).
+                        </li>
+                        <li>Tiền giữ chỗ & bồi thường do chủ xe hủy chuyến (nếu có) sẽ được hoàn trả đến khách thuê
+                            bằng chuyển khoản ngân hàng trong vòng 1-3 ngày làm việc kế tiếp.
+                        </li>
+                    </ul>
+                    <div class="form-group mt-3">
+                        <input type="hidden" name="statusBooking" id="statusBooking">
+                        <input type="hidden" name="bookingId" id="bookingId">
+                        <input type="hidden" name="cancel" value="true">
+                        <label for="cancelReason">Lý do hủy đơn hàng <span style="color: red;">*</span>:</label>
+                        <textarea id="cancelReason" name="reason" class="form-control" rows="3"
+                                  placeholder="Nhập lý do hủy đơn hàng"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" style="cursor: pointer" class="btn btn-primary">Xác nhận hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function validateCancelForm() {
+        const reason = document.getElementById('cancelReason').value.trim();
+        if (!reason) {
+            alert("Vui lòng nhập lý do hủy!");
+            return false;
+        }
+        return true;
+    }
+</script>

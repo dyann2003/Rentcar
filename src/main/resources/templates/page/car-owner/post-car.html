@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a Car - Step Wizard</title>
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- Include CKEditor 5 -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+
+    <!-- Slick CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+    <!-- Slick JS -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css"
+          rel="stylesheet"/>
+    <link href="/css/dropzone.min.css" rel="stylesheet"/>
+    <link href="/css/postcar.css" rel="stylesheet"/>
+    <script src="/js/dropzone.min.js"></script>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <script src="/js/choices.min.js"></script>
+    <link href="/css/choices.min.css" rel="stylesheet"/>
+
+    <div class="container">
+        <!-- Form start -->
+        <form action="/car-owner/post-car" method="post" enctype="multipart/form-data">
+            <!-- Step 1: Basic Car Information -->
+            <div class="step" id="step1">
+                <h2>Bước 1: Thông tin cơ bản về xe</h2>
+                <label for="carBrand">Car Brand:</label>
+                <select id="carBrand" name="brand" class="form-select js-choice" size="1"
+                        data-options='{"removeItemButton":true,"placeholder":true}'
+                        onchange="updateModels(this.value)" required>
+                    <option th:each="brand : ${brands}" value="" th:value="${brand.id}"
+                            th:text="${brand.brandName}"></option>
+                </select>
+
+
+                <label for="carModel">Model:</label>
+                <select id="carModel" name="model" class="form-select js-choice" size="1"
+                        data-options='{"removeItemButton":true,"placeholder":true}' required>
+                </select>
+
+                <label for="carYear">Năm sản xuất:</label>
+                <input type="number"
+                       style="width: 100%;padding: 8px 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;"
+                       id="carYear" name="productionYear" placeholder="Nhập năm sản xuất" max="" required>
+                <script>
+                    const currentYear = new Date().getFullYear();
+                    document.getElementById("carYear").setAttribute("max", currentYear);
+                    $("#carYear").datepicker({
+                        format: "yyyy",
+                        viewMode: "years",
+                        minViewMode: "years",
+                        endDate: currentYear.toString()
+                    });
+                </script>
+
+                <label for="carVIN">VIN:</label>
+                <input type="text" id="carVIN" name="VIN" placeholder="Nhập số VIN 17 ký tự" required>
+                <label for="color">Màu sắc:</label>
+                <select id="color" name="color" class="form-select js-choice" size="1"
+                        data-options='{"removeItemButton":true,"placeholder":true}' required>
+                    <option th:each="color : ${colors}" value="" th:value="${color.id}"
+                            th:text="${color.color}"></option>
+                </select>
+                <label for="mileage">Số km đã đi:</label>
+                <input type="number"
+                       style="width: 100%;padding: 8px 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;"
+                       id="mileage" name="mileage" placeholder="Nhập số km đã đi" required>
+                <button type="button" class="next-btn" onclick="nextStep(2)">Next</button>
+            </div>
+
+            <!-- Step 2: Car Details -->
+            <div class="step" id="step2" style="display: none;">
+                <h2>Bước 2: Chi tiết xe</h2>
+                <label for="carPrice">Giá thuê mỗi ngày:</label>
+                <input type="number"
+                       style="width: 100%;padding: 8px 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;"
+                       id="carPrice" name="pricePerDay" placeholder="Nhập giá thuê mỗi ngày" required>
+                <label for="deposit">Tiền đặt cọc:</label>
+                <input type="number"
+                       style="width: 100%;padding: 8px 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px;"
+                       id="deposit" name="deposit" placeholder="Nhập số tiền đặt cọc" required>
+                <label for="type">Loại xe:</label>
+                <select id="type" name="carType" required>
+                    <option th:each="type : ${carType}" th:value="${type.key}" th:text="${type.value}">Mini</option>
+                </select>
+
+                <div class="row" style="margin-left: 0; color: black">
+                    <label for="carSeats" style="margin-right: 5px">Số ghế: </label>
+                    <span id="carSeatsValue" style="margin-right: 5px">6 </span> Ghế
+                </div>
+
+                <input style="margin: 10px 0; width: 100%" class="form-range" id="carSeats" name="numberOfSeats"
+                       type="range" min="2"
+                       max="10"
+                       step="1" required/>
+
+                <script>
+                    const carSeatsRange = document.getElementById('carSeats');
+                    const carSeatsValue = document.getElementById('carSeatsValue');
+
+                    // Update value when the range changes
+                    carSeatsRange.addEventListener('input', function () {
+                        carSeatsValue.textContent = carSeatsRange.value;
+                    });
+                </script>
+
+                <label for="description">Mô tả xe</label>
+                <textarea class="form-control" id="description" name="description" rows="5"
+                          placeholder="Nhập mô tả xe (ví dụ: Tính năng, Tình trạng)"></textarea>
+                <label for="transmission" style="margin-top: 10px">Hộp số:</label>
+                <select id="transmission" name="transmissionType" required>
+                    <option value="Automatic">Số tự động</option>
+                    <option value="Manual">Số sàn</option>
+                </select>
+                <label for="fuel">Loại nhiên liệu:</label>
+                <select id="fuel" name="fuelType" required>
+                    <option value="Xăng">Xăng</option>
+                    <option value="Dầu">Dầu diesel</option>
+                    <option value="Điện">Điện</option>
+                </select>
+                <div class="row" style="margin-left: 0; color: black">
+                    <label style="margin-right: 5px" for="fuelConsumption">Mức tiêu thụ nhiên liệu: </label>
+                    <span id="fuelConsumptionValue">5</span> L/100km
+                </div>
+                <input style="margin: 10px 0; width: 100%" class="form-range" id="fuelConsumption"
+                       name="fuelConsumption"
+                       type="range" min="4" max="15"
+                       step="0.5" required/>
+
+
+                <script>
+                    const fuelConsumptionRange = document.getElementById('fuelConsumption');
+                    const fuelConsumptionValue = document.getElementById('fuelConsumptionValue');
+
+                    // Update value when the range changes
+                    fuelConsumptionRange.addEventListener('input', function () {
+                        fuelConsumptionValue.textContent = fuelConsumptionRange.value;
+                    });
+                </script>
+
+
+                <label for="address">Địa chỉ:</label>
+                <div class="mb-4">
+                    <input name="address" type="text" class="form-control px-4 mb-3" id="address"
+                           placeholder="Chọn Địa Chỉ"
+                           style="height: 40px; cursor: pointer; background-color: white"
+                           onclick="showSeachCar()" readonly required>
+
+                </div>
+                <div th:replace="~{model/pick_address_search :: pickAddress}"></div>
+
+                <label for="additional_functions">Tiện ích:</label>
+                <div style="margin-bottom: 15px" id="additional_functions" class="features-grid">
+                    <label class="feature-item" th:each="func : ${addFunc}" onclick="toggleCheckbox(this)">
+                        <input type="checkbox" th:value="${func.getId()}" name="additional_functions"
+                               class="feature-checkbox">
+                        <img th:src="${func.getIcon()}" th:alt="${func.getValue()}">
+                        <span th:text="${func.getValue()}"></span>
+                    </label>
+                </div>
+
+                <script>
+                    function toggleCheckbox(label) {
+                        const checkbox = label.querySelector(".feature-checkbox");
+                        checkbox.checked = !checkbox.checked;
+                        label.classList.toggle("selected", checkbox.checked);
+                    }
+                </script>
+                <button type="button" class="back-btn" onclick="prevStep(1)">Back</button>
+                <button type="button" class="next-btn" onclick="nextStep(3)">Next</button>
+            </div>
+
+            <!-- Step 3: Upload Images -->
+            <div class="step" id="step3" style="display: none">
+                <h2>Bước 3: Hình ảnh hiện tại của xe</h2>
+
+                <!-- Container for image fields -->
+                <div class="image-upload-container" style="margin-bottom: 10px">
+                    <div class="image-upload-field">
+                        <label for="carImageFront">Mặt trước:</label>
+                        <div class="upload-box">
+                            <input type="file" id="carImageFront" name="carImages" accept="image/*" required
+                                   onchange="previewImage(this, 'previewFrontStep3')">
+                            <div class="preview" id="previewFrontStep3">
+                                <span>Chọn ảnh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="image-upload-field">
+                        <label for="carImageBack">Mặt sau:</label>
+                        <div class="upload-box">
+                            <input type="file" id="carImageBack" name="carImages" accept="image/*" required
+                                   onchange="previewImage(this, 'previewBackStep3')">
+                            <div class="preview" id="previewBackStep3">
+                                <span>Chọn ảnh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="image-upload-field">
+                        <label for="carImageLeft">Mặt bên trái:</label>
+                        <div class="upload-box">
+                            <input type="file" id="carImageLeft" name="carImages" accept="image/*" required
+                                   onchange="previewImage(this, 'previewLeftStep3')">
+                            <div class="preview" id="previewLeftStep3">
+                                <span>Chọn ảnh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="image-upload-field">
+                        <label for="carImageRight">Mặt bên phải:</label>
+                        <div class="upload-box">
+                            <input type="file" id="carImageRight" name="carImages" accept="image/*" required
+                                   onchange="previewImage(this, 'previewRightStep3')">
+                            <div class="preview" id="previewRightStep3">
+                                <span>Chọn ảnh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="image-upload-field">
+                        <label for="carImagesMultiple">Ảnh chi tiết xe:</label>
+                        <div class="upload-box">
+                            <input type="file" id="carImagesMultiple" name="carImagesMultiple" accept="image/*"
+                                   multiple
+                                   onchange="previewMultipleImages(this, 'previewMultipleStep3')">
+                            <div class="preview_multi" id="previewMultipleStep3">
+                                <span>Chọn ảnh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Navigation buttons -->
+                <button type="button" class="back-btn" onclick="prevStep(2)">Back</button>
+                <button type="button" class="next-btn" onclick="nextStep(4)">Next</button>
+            </div>
+
+            <!-- Step 4: Confirm Details -->
+            <div class="step" id="step4" style="display: none;">
+                <h2>Step 4: Confirm Details</h2>
+                <p id="summary"></p>
+                <h3>Image Previews:</h3>
+                <div class="image-grid">
+                    <div class="image-item">
+                        <p class="image-description">Front View:</p>
+                        <img id="previewFrontStep4" style="width: 100%; height: 230px;"/>
+                    </div>
+                    <div class="image-item">
+                        <p class="image-description">Back View:</p>
+                        <img id="previewBackStep4" style="width: 100%; height: 230px;"/>
+                    </div>
+                    <div class="image-item">
+                        <p class="image-description">Left View:</p>
+                        <img id="previewLeftStep4" style="width: 100%; height: 230px;"/>
+                    </div>
+                    <div class="image-item">
+                        <p class="image-description">Right View:</p>
+                        <img id="previewRightStep4" style="width: 100%; height: 230px;"/>
+                    </div>
+                </div>
+                <div style="padding: 0 20px" id="multiImage">
+                </div>
+                <div id="imageSummaryContainer">
+                </div>
+                <button type="button" class="back-btn" onclick="prevStep(3)">Back</button>
+                <button type="submit" class="save-btn">Save</button>
+            </div>
+        </form>
+        <!-- Form end -->
+    </div>
+    <!-- Script for wizard functionality -->
+    <script>
+
+        function previewMultipleImages(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const files = input.files;
+
+            preview.innerHTML = ""; // Clear the preview area
+
+            if (files.length > 0) {
+                Array.from(files).forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        // Create image element
+                        const imgWrapper = document.createElement('div');
+                        imgWrapper.classList.add('img-wrapper');
+
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = "Preview Image";
+                        img.style.maxWidth = "100px"; // Optional styling for image size
+                        img.style.margin = "5px"; // Optional styling for spacing
+
+                        // Create delete button with "X"
+                        const deleteButton = document.createElement('button');
+                        deleteButton.innerHTML = "&#10005;";  // Unicode for "X" symbol
+                        deleteButton.classList.add('delete-btn');
+                        deleteButton.onclick = function () {
+                            // Remove the image from preview
+                            imgWrapper.remove();
+
+                            // Create a new FileList without the deleted file
+                            const newFiles = Array.from(input.files).filter((_, i) => i !== index);
+
+                            // Use DataTransfer to reassign the new FileList to the input element
+                            const dataTransfer = new DataTransfer();
+                            newFiles.forEach(file => dataTransfer.items.add(file));
+
+                            // Update the input.files with the new list
+                            input.files = dataTransfer.files;
+                            previewMultipleImages(input, previewId);  // Re-render preview with updated file list
+                        };
+
+                        // Append the image and delete button to the wrapper
+                        imgWrapper.appendChild(img);
+                        imgWrapper.appendChild(deleteButton);
+
+                        // Append the image wrapper to the preview area
+                        preview.appendChild(imgWrapper);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                preview.innerHTML = "<span>Chọn ảnh</span>";
+            }
+        }
+
+
+        // Initialize CKEditor on the textarea with id="description"
+        ClassicEditor
+            .create(document.querySelector('#description'))
+            .catch(error => {
+                console.error(error);
+            });
+
+        $(document).ready(function () {
+            $('.image-slider').slick({
+                dots: true, // Hiện dấu chấm
+                infinite: true, // Vòng lặp
+                speed: 500, // Tốc độ chuyển đổi
+                slidesToShow: 1, // Hiện một ảnh
+                slidesToScroll: 1 // Cuộn một ảnh
+            });
+        });
+
+        function nextStep(step) {
+            if (!validateStep(step - 1)) {
+                alert("Please fill out all required fields in this step.");
+                return;
+            }
+
+            document.querySelectorAll('.step').forEach(function (stepDiv) {
+                stepDiv.style.display = 'none'; // Ẩn tất cả các bước
+            });
+            document.getElementById('step' + step).style.display = 'block'; // Hiện bước tiếp theo
+
+            if (step === 4) {
+                const file = document.getElementById("carImagesMultiple");
+                fillSummary(); // Gọi fillSummary để cập nhật tóm tắt ở bước 4
+                $('.image-slider').slick('setPosition'); // Đặt lại vị trí của slider để hiển thị các hình ảnh mới
+            }
+        }
+
+        function prevStep(step) {
+            document.querySelectorAll('.step').forEach(function (stepDiv) {
+                stepDiv.style.display = 'none'; // Ẩn tất cả các bước
+            });
+            document.getElementById('step' + step).style.display = 'block'; // Hiện bước trước
+        }
+
+        function validateStep(step) {
+            const inputs = document.querySelectorAll(`#step${step} input[required], #step${step} select[required]`);
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (input.type === "file") {
+                    // For file inputs, check if there's a selected file
+                    if (input.files.length === 0) {
+                        isValid = false;
+                        alert("Please upload all required images.");
+                    }
+                } else if (input.value.trim() === '') {
+                    isValid = false;
+                }
+            });
+            return isValid;
+        }
+
+
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const file = input.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview Image">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = "<span>Chọn ảnh</span>";
+            }
+        }
+
+        function fillSummary() {
+            const summaryData = {
+                brand: document.getElementById('carBrand').value,
+                model: document.getElementById('carModel').value,
+                year: document.getElementById('carYear').value,
+                vin: document.getElementById('carVIN').value,
+                color: document.getElementById('color').value,
+                mileage: document.getElementById('mileage').value,
+                price: document.getElementById('carPrice').value,
+                deposit: document.getElementById('deposit').value,
+                seats: document.getElementById('carSeats').value,
+                description: document.getElementById('description').value,
+                transmission: document.getElementById('transmission').value,
+                fuelType: document.getElementById('fuel').value,
+                fuelConsumption: document.getElementById('fuelConsumption').value,
+                address: document.getElementById('address').value,
+                additional_functions: document.getElementById('additional_functions').value,
+                type: document.getElementById('type').value,
+            };
+
+            document.getElementById('summary').innerHTML = `
+        <strong>Car Brand:</strong> ${summaryData.brand}<br>
+        <strong>Model:</strong> ${summaryData.model}<br>
+        <strong>Year:</strong> ${summaryData.year}<br>
+        <strong>VIN:</strong> ${summaryData.vin}<br>
+        <strong>Color:</strong> ${summaryData.color}<br>
+        <strong>Car Type:</strong> ${summaryData.type}<br>
+        <strong>Mileage:</strong> ${summaryData.mileage} km<br>
+        <strong>Rental Price:</strong> $${summaryData.price} per day<br>
+        <strong>Deposit:</strong> $${summaryData.deposit}<br>
+        <strong>Seats:</strong> ${summaryData.seats}<br>
+        <strong>Description:</strong> ${summaryData.description}<br>
+        <strong>Transmission:</strong> ${summaryData.transmission}<br>
+        <strong>Fuel Type:</strong> ${summaryData.fuelType}<br>
+        <strong>Fuel Consumption:</strong> ${summaryData.fuelConsumption} L/100 km<br>
+        <strong>Additional Functions:</strong> ${summaryData.additional_functions}<br>
+        <strong>Address:</strong> ${summaryData.address}<br>
+    `;
+            // Get the selected images from the file input
+            const carImagesInput = document.getElementById('carImagesMultiple');
+            const files = carImagesInput.files;
+
+            // Container to hold the image previews
+            const imageContainer = document.getElementById('imageSummaryContainer');
+            const multiImage = document.getElementById('multiImage');
+            imageContainer.innerHTML = '';  // Clear any existing images
+
+            // Loop through each selected file and create image previews
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    // Create a div element to hold each image
+                    const imageItem = document.createElement('div');
+                    imageItem.classList.add('image-multi-item');
+
+                    // Create an image element
+                    const img = document.createElement('img');
+                    img.src = event.target.result; // Set the image source to the file content
+                    img.style.width = '100%';
+                    img.style.height = '230px';
+
+                    // Append the image and description to the div
+                    imageItem.appendChild(img);
+
+                    // Append the image item to the container
+                    imageContainer.appendChild(imageItem);
+                };
+
+                // Read the file as a data URL
+                reader.readAsDataURL(file);
+            }
+
+            // Create a description for the images (this will be shown only if there are images)
+            if (files.length > 0) {
+                const description = document.createElement('p');
+                description.classList.add('image-description');
+                description.textContent = "Ảnh thêm:";
+                multiImage.appendChild(description); // Add the description before the images
+            }
+
+
+            // Update preview images for the summary in Step 4
+            ['Front', 'Back', 'Left', 'Right'].forEach(view => {
+                const imgElement = document.getElementById(`preview${view}Step3`).querySelector('img');
+                if (imgElement) {
+                    document.getElementById(`preview${view}Step4`).src = imgElement.src;
+                }
+            });
+        }
+    </script>
+</div>
+</body>
+</html>

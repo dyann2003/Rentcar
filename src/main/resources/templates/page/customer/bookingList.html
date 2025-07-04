@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <style>
+        .tab {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .tablinks {
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none !important;
+            color: #333;
+            border: 1px solid transparent; /* Không có viền mặc định */
+            border-bottom: 1px solid #fff; /* Trùng với màu nền để ẩn viền */
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .tablinks.active {
+            border: 1px solid #1b1e37;
+            border-bottom: 1px solid #fff;
+            color: #2B2E4A;
+            font-weight: bold;
+        }
+
+        .stars i {
+            font-size: 30px;
+            cursor: pointer;
+            color: gray;
+        }
+
+        .stars i.active {
+            color: gold;
+        }
+
+    </style>
+    <script src="/js/filter_order.js"></script>
+    <script src="/js/fitler_search_car.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+<th:block layout:fragment="content">
+    <!-- Review Modal -->
+    <div id="handoverModal"
+         style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); padding: 20px; z-index: 1000; width: 400px;">
+        <h4>Rate your trip</h4>
+        <p>Do you enjoy your trip? Please let us know what you think.</p>
+
+        <!-- Stars Section -->
+        <div class="stars mb-3" id="starRating">
+            <i class="bi bi-star-fill" data-value="1"></i>
+            <i class="bi bi-star-fill" data-value="2"></i>
+            <i class="bi bi-star-fill" data-value="3"></i>
+            <i class="bi bi-star-fill" data-value="4"></i>
+            <i class="bi bi-star-fill" data-value="5"></i>
+        </div>
+
+        <!-- Text Area -->
+        <textarea id="reviewText" rows="4" placeholder="Write your review here..."
+                  style="width: 100%; margin-bottom: 15px;"></textarea>
+
+        <!-- Buttons -->
+        <div style="display: flex; justify-content: space-between;">
+            <button id="skipReview"
+                    style="padding: 10px 20px; background: gray; color: white; border: none; border-radius: 4px;">Skip
+            </button>
+            <button id="submitReview"
+                    style="padding: 10px 20px; background: blue; color: white; border: none; border-radius: 4px;">Submit
+                Review
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay"
+         style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+
+
+    <div class="container mt-5">
+        <h2>Danh sách xe đã thuê</h2>
+        <p>Bạn đang có <span th:text="${totalBookingOnGoing}"></span> đơn đang hoạt động</p>
+
+        <div class="sort-options mb-3">
+            <label for="sortBy" style="font-weight: bold">Sắp xe theo:</label>
+            <select onchange="searchWithSort('sortBy')" name="sortBy" id="sortBy" style="padding: 5px">
+                <option th:selected="${sortBy == 'updateDate'}" value="updateDate">Ngày cập nhật</option>
+                <option th:selected="${sortBy == 'bookingDate'}" value="bookingDate">Ngày thuê xe</option>
+                <option th:selected="${sortBy == 'totalAmount'}" value="totalAmount">Giá thuê xe</option>
+            </select>
+            <label for="sortOrder" style="font-weight: bold">Thứ tự:</label>
+            <select id="sortOrder" name="sortOrder" onchange="searchWithSort('sortOrder')" style="padding: 5px">
+                <option th:if="${sortBy == 'totalAmount'}" th:selected="${sortOrder == 'ASC'}" value="ASC">Tăng</option>
+                <option th:if="${sortBy == 'totalAmount'}" th:selected="${sortOrder == 'DESC'}" value="DESC">Giảm
+                </option>
+                <option th:if="${sortBy == 'updateDate' or sortBy == 'bookingDate'}" th:selected="${sortOrder == 'ASC'}"
+                        value="ASC">Ngày xa nhất
+                </option>
+                <option th:if="${sortBy == 'updateDate' or sortBy == 'bookingDate'}"
+                        th:selected="${sortOrder == 'DESC'}" value="DESC">Ngày gần nhất
+                </option>
+            </select>
+        </div>
+
+        <div class="row mb-3 align-items-center" style="height: 45px; max-width: 100%; margin-left: 2px">
+            <a th:class="${status == '1' ? 'col tablinks active' : 'col tablinks'}"
+               onclick="filterWithStatus('statusBooking', '1')">Chờ xác nhận</a>
+            <a th:class="${status == '2' ? 'col tablinks active' : 'col tablinks'}"
+               onclick="filterWithStatus('statusBooking', '2')">Đơn chờ giao xe</a>
+            <a th:class="${status == '0' ? 'col tablinks active' : 'col tablinks'}"
+               onclick="filterWithStatus('statusBooking', '0')">Đang thuê</a>
+            <a th:class="${status == '6' ? 'col tablinks active' : 'col tablinks'}"
+               onclick="filterWithStatus('statusBooking', '6')">Hoàn tất</a>
+            <a th:class="${status == '7' ? 'col tablinks active' : 'col tablinks'}"
+               onclick="filterWithStatus('statusBooking', '7')">Đã hủy</a>
+        </div>
+
+        <div id="bookings-list">
+            <section th:if="${resultPage.content == null or resultPage.content.isEmpty()}"
+                     th:replace="~{component/empty_data}"></section>
+            <div th:each="booking, iterStat : ${resultPage.content}" class="booking-item card mb-3"
+                 style="border-radius: 15px">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <div id="carCarousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner" style="border-radius: 15px 0 0 15px;">
+                                <div th:each="image, iterStat : ${booking.car.imagePaths}"
+                                     class="carousel-item"
+                                     th:classappend="${iterStat.index == 0} ? ' active' : ''">
+                                    <img style="height: 260px; object-fit: cover" class="d-block w-100 img-fluid"
+                                         th:src="@{${image}}" alt="Car Image"/>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carCarousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carCarousel" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body row" style="padding-bottom: 0">
+                            <div class="col-lg-8">
+                                <h5 class="card-title"
+                                    th:text="${booking.car.brand.brandName} + ' ' + ${booking.car.model.name} + ' ' + ${booking.car.productionYear}"></h5>
+                                <p class="card-text" style="margin-bottom: 0">
+                                    <strong>ID: </strong> <span th:text="${booking.id}"></span> <br>
+                                    <strong>Nơi nhận xe:</strong> <span
+                                        th:text="${booking.addressPickup}"></span> <br>
+                                    <strong>Ngày thuê xe:</strong> <span
+                                        th:text="${#dates.format(booking.bookingDate, 'dd/MM/yyyy - HH:mm')}"></span>
+                                    <br>
+                                    <strong>Ngày nhận xe:</strong> <span class="start-date"
+                                                                         th:text="${#dates.format(booking.startDate, 'dd/MM/yyyy - HH:mm')}"></span>
+                                    <br>
+                                    <strong>Ngày trả xe:</strong> <span
+                                        th:text="${#dates.format(booking.endDate, 'dd/MM/yyyy - HH:mm')}"></span> <br>
+                                    <strong>Tổng tiền (chưa gồm đặt cọc): </strong><span
+                                        th:text="${#numbers.formatInteger(booking.totalAmount, 3, 'POINT') + ' Đồng'}"></span>
+                                    <br>
+                                    <strong>Đặt cọc: </strong><span
+                                        th:text="${#numbers.formatInteger(booking.car.deposit, 3, 'POINT') + ' Đồng'}"></span>
+                                    <br>
+                                    <strong>Trạng thái đơn hàng: </strong> <span style="color: red"
+                                                                                 th:text="${listStatusBooking.get(booking.id).value}"></span>
+                                </p>
+                            </div>
+
+                            <div class="col-lg-4 d-flex flex-column align-items-center">
+                                <a style="height: 40px; width: 140px; border-radius: 15px"
+                                   th:href="@{/booking/details(id=${booking.id})}"
+                                   class="btn btn-primary mb-2">Xem chi tiết</a>
+                                <a style="height: 40px; width: 140px; background-color: #63e163; border-color: #63e163; border-radius: 15px"
+                                   th:href="@{/booking/update_status_booking(bookingId=${booking.id}, statusBooking=${listStatusBooking.get(booking.id).key})}"
+                                   class="btn btn-danger mb-2"
+                                   th:if="${listStatusBooking.get(booking.id).key == '2'}">
+                                    Đã nhận xe
+                                </a>
+                                <a style="height: 40px; width: 140px; background-color: #63e163; border-color: #63e163; border-radius: 15px"
+                                   th:href="@{/booking/update_status_booking(bookingId=${booking.id}, statusBooking=${listStatusBooking.get(booking.id).key})}"
+                                   class="btn btn-danger mb-2"
+                                   th:if="${listStatusBooking.get(booking.id).key == '3'}">
+                                    <span class="transfer"
+                                          th:data="${booking.car.id +'-'+ booking.id}">Bàn giao lại xe</span>
+                                </a>
+                                <button style="height: 40px; width: 140px; border-radius: 15px" type="button"
+                                        class="btn btn-danger mb-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#cancelBookingDocumentPolicy"
+                                        th:data-id="${booking.id}"
+                                        th:data-status-booking="${listStatusBooking.get(booking.id).key}"
+                                        th:data-start-date="${booking.startDate}"
+                                        th:if="${listStatusBooking.get(booking.id).key == '1' || listStatusBooking.get(booking.id).key == '2'}">
+                                    Hủy thuê xe
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section th:replace="~{model/Customer/cancel_booking_policy :: cancelBookingDocumentPolicy}"></section>
+        <section id="pagination" class="container mt-2 mb-5" th:if="${resultPage.totalPages > 1}">
+            <div th:replace="~{component/pagination :: pagination}"></div>
+        </section>
+    </div>
+    <!-- Popper.js (yêu cầu cho Bootstrap modal) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/bookinglist.js}"></script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,223 @@
+
+/* Ảnh lớn */
+.main-image {
+    width: 106%;
+    height: 560px; /* Đặt chiều cao cố định */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    border-radius: 15px;
+}
+
+/* Container chứa ảnh nhỏ */
+.small-images {
+    display: flex;
+    flex-direction: column; /* Căn các ảnh nhỏ theo chiều dọc */
+    position: relative;
+    height: 450px; /* Tổng chiều cao bằng chiều cao của ảnh lớn */
+}
+
+
+/* Ảnh nhỏ */
+.small-image-container {
+    flex: 1; /* Chia đều chiều cao giữa các ảnh */
+}
+
+.small-images img {
+    width: 90%;
+    height: 180px; /* Tự động điều chỉnh chiều cao theo container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    border-radius: 15px;
+}
+
+.small-images img:hover {
+    transform: scale(1.05);
+}
+
+.info-section {
+    display: flex;
+    align-items: center;
+    color: #777;
+    margin-top: 10px;
+    font-size: 3.9rem;
+}
+
+.info-section span:not(:last-child)::after {
+    content: "·";
+    margin: 0 8px;
+}
+
+.badge {
+    margin-right: 5px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.insurance-section {
+    background-color: #e9f7ef;
+    border: 1px solid #d4edda;
+    border-radius: 8px;
+    padding: 15px;
+    color: #155724;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.insurance-section h5 {
+    font-weight: 600;
+}
+
+.insurance-section a {
+    color: #155724;
+    font-weight: 500;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.insurance-section a:hover {
+    color: #0b6e4f;
+}
+
+/* Nút View All Images */
+.btn-view-all {
+    position: absolute;
+    bottom: -85px;
+    right: 35px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-view-all i {
+    font-size: 16px; /* Adjust icon size */
+}
+
+.btn-view-all:hover {
+    background-color: #e2e6ea;
+    color: #000;
+}
+
+.features-section, .description-section, .rental-terms-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 5px #d8d8d8;
+}
+
+.features-section .row div {
+    flex: 0 0 27%;
+    max-width: 27%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    justify-content: flex-start;
+}
+
+.features-section .row div p {
+    align-content: center;
+    margin-bottom: 0;
+    font-size: 20px;
+}
+
+.features-section h5,
+.description-section h5,
+.rental-terms-section h5 {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.feature-icons p {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.feature-icons p i {
+    margin-right: 10px;
+    color: #555;
+}
+
+.rental-terms-section p {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.rental-terms-section i {
+    margin-right: 8px;
+    color: #555;
+}
+
+/* For "Đặc điểm" section (4 items per row) */
+.feature-icons-4 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjusted gap between items */
+}
+
+.feature-icons-4 a {
+    flex: 1 1 calc(25% - 10px); /* 4 items per row */
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+    justify-content: flex-start; /* Align items to the left */
+}
+
+/* For "Các tiện nghi khác" section (3 items per row) */
+.feature-icons-3 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjusted gap between items */
+}
+
+.feature-icons-3 p {
+    flex: 1 1 calc(33.33% - 10px); /* 3 items per row */
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+    justify-content: flex-start; /* Align items to the left */
+}
+
+/* Adjust spacing and style for the Rent Now button */
+.btn-rent-now {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    width: 200px;
+    height: 55px;
+    font-size: 25px;
+}
+
+.btn-rent-now:hover {
+    background-color: #0056b3;
+}
+
+/* For the car name styling */
+.details-header {
+    font-weight: 600;
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 0; /* Ensure no margin below the title */
+}

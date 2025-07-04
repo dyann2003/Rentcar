@@ -1,0 +1,86 @@
+<!-- Topbar Start -->
+<section th:fragment="header">
+    <div class="container-fluid bg-dark py-3 px-lg-5 d-none d-lg-block">
+        <div class="row">
+            <div class="col-md-6 text-center text-lg-left mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center">
+                    <a class="text-body pr-3" href=""><i class="fa fa-phone-alt mr-2"></i>+84 338750792</a>
+                    <span class="text-body">|</span>
+                    <a class="text-body px-3" href=""><i class="fa fa-envelope mr-2"></i>nhom3@fpt.com</a>
+                </div>
+            </div>
+            <div class="col-md-6 text-center text-lg-right">
+                <div class="d-inline-flex align-items-center">
+                    <a class="text-body px-3" href="">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a class="text-body px-3" href="">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a class="text-body px-3" href="">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a class="text-body px-3" href="">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a class="text-body pl-3" href="">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+    <!-- Navbar Start -->
+    <div class="container-fluid position-relative nav-bar p-0">
+        <div class="position-relative px-lg-5" style="z-index: 9;">
+            <nav style="border-radius: 10px" class="navbar navbar-expand-lg bg-secondary navbar-dark py-3 py-lg-0 pl-3 pl-lg-5">
+                <a href="/" class="navbar-brand">
+                    <h1 class="text-uppercase text-primary mb-1">Swift Rent</h1>
+                </a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto py-0">
+                        <!-- Links for guest users -->
+
+                        <a th:href="@{/}" class="nav-item nav-link">Home</a>
+                        <a th:href="@{/}" class="nav-item nav-link">About</a>
+                        <!-- Links for authenticated users -->
+                        <div sec:authorize="isAuthenticated()" class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" style="text-transform: none"
+                               data-toggle="dropdown">
+                                Welcome, <span sec:authentication="principal.username"></span>
+                            </a>
+                            <div sec:authorize="hasRole('CUSTOMER')" class="dropdown-menu rounded-0 m-0"
+                                 style="right: 0; left: auto">
+                                <a th:href="@{/profile}" class="dropdown-item">My profile</a>
+                                <a th:href="@{/customer/list-booking-car}" class="dropdown-item">My booking</a>
+                                <a th:href="@{/mywallet}" class="dropdown-item">My wallet</a>
+                                <div class="dropdown-divider"></div>
+                                <a th:href="@{/logout}" class="dropdown-item">Logout</a>
+                            </div>
+
+                            <div sec:authorize="hasRole('CAR_OWNER')" class="dropdown-menu rounded-0 m-0"
+                                 style="right: 0; left: auto">
+                                <a th:href="@{/profile}" class="dropdown-item">My profile</a>
+                                <a th:href="@{/car-owner/viewAllCar}" class="dropdown-item">My car</a>
+                                <a th:href="@{/mywallet}" class="dropdown-item">My wallet</a>
+                                <a href="/car-owner/report" class="dropdown-item">My reports</a>
+                                <div class="dropdown-divider"></div>
+                                <a th:href="@{/logout}" class="dropdown-item">Logout</a>
+                            </div>
+                        </div>
+                        <div sec:authorize="!isAuthenticated()">
+                            <a th:href="@{/login}" class="nav-item nav-link">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+</section>

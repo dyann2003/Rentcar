@@ -1,0 +1,245 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.filter-input-container {
+    display: flex;
+    justify-content: flex-end; /* Align button to the right */
+    margin-bottom: 20px;
+}
+
+#filter-button {
+    width: 200px;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+#filter-button:hover {
+    background-color: #45a049;
+}
+
+/* Style for modal */
+.filter-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    width: 400px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+}
+
+.filter-section {
+    margin-bottom: 15px;
+}
+
+.price-inputs {
+    display: flex;
+    align-items: center;
+}
+
+.price-inputs input {
+    width: 100px;
+    margin-right: 5px;
+}
+
+.filter-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Modal button styles */
+.reset-button,
+.apply-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.reset-button {
+    background-color: #f44336;
+}
+
+.reset-button:hover {
+    background-color: #e53935;
+}
+
+.apply-button {
+    background-color: #2196F3;
+}
+
+.apply-button:hover {
+    background-color: #1976D2;
+}
+
+/* Đặt chung cho phần radio-options */
+.radio-options.material {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    width: 300px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Tiêu đề của phần nguyên liệu */
+.radio-options.material .filter-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    color: #333;
+}
+
+/* Căn các lựa chọn radio theo hàng ngang */
+.radio-options.material {
+    display: flex;
+    flex-direction: column;
+}
+
+.radio-options.material .radio-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Các tùy chọn radio */
+.radio-options.material label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+/* Kiểu cho ô radio */
+.radio-options.material input[type="radio"] {
+    margin-right: 8px;
+    accent-color: #007bff; /* Màu khi chọn, thay đổi theo ý thích */
+}
+.range-slider {
+    position: relative;
+    width: 300px;
+}
+
+.thumb {
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+}
+
+.thumb::-webkit-slider-thumb {
+    pointer-events: auto;
+    width: 16px;
+    height: 16px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.slider-track {
+    position: absolute;
+    height: 4px;
+    background-color: #ddd;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+.filter-modal {
+    max-width: 500px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+}
+
+.filter-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.filter-section {
+    margin-bottom: 1.5rem;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.fuel-range {
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+.reset-button {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 0.9rem;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.radio-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.radio-buttons label,
+.checkbox-grid label {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 8px;
+}

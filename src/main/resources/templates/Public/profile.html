@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+  <title>User Profile</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa; /* Nền sáng */
+    }
+    .container {
+      margin-top: 50px;
+      border-radius: 8px;
+      background-color: #ffffff; /* Nền trắng cho container */
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng cho container */
+    }
+    h1 {
+      color: #343a40; /* Màu tiêu đề */
+      margin-bottom: 30px;
+    }
+    .profile-info {
+      margin-bottom: 15px; /* Khoảng cách giữa các thông tin */
+      padding: 10px;
+      border-bottom: 1px solid #dee2e6; /* Đường phân cách giữa các thông tin */
+    }
+    .profile-info:last-child {
+      border-bottom: none; /* Xóa đường phân cách cho thông tin cuối cùng */
+    }
+    .btn {
+      margin-top: 20px; /* Khoảng cách cho nút */
+    }
+
+  </style>
+</head>
+<body>
+<th:block layout:fragment="content"><div class="container">
+  <h1>User Profile</h1>
+  <!-- Display Success or Error Messages -->
+  <div th:if="${message}" class="alert alert-info" role="alert" th:text="${message}"></div>
+
+  <div class="profile-info">
+    <strong>Full Name:</strong> <span th:text="${user.fullName}"></span>
+  </div>
+  <div class="profile-info">
+    <strong>Date of Birth:</strong> <span th:text="${user.dob}"></span>
+  </div>
+  <div class="profile-info">
+    <strong>Email:</strong> <span th:text="${user.email}"></span>
+  </div>
+  <div class="profile-info">
+    <strong>Phone:</strong> <span th:text="${user.phone}"></span>
+  </div>
+  <div class="profile-info">
+    <strong>Address:</strong> <span th:text="${user.address}"></span>
+  </div>
+  <div  class="profile-info"  th:if="${user.drivingLicense != null and !user.drivingLicense.isEmpty()}">
+    <strong>Driving Liscences:</strong> <br>
+    <img class="img-fluid mb-4" th:src="@{${user.drivingLicense[0]}}" alt="Driving License Image"  width="240" height="auto"/>
+  </div>
+  <div class="profile-info"  th:unless="${user.drivingLicense != null and !user.drivingLicense.isEmpty()}">
+    <p>No driving license images available</p>
+  </div>
+  <div class="profile-info">
+    <strong>National ID:</strong> <span th:text="${user.nationalId}"></span>
+  </div>
+
+  <a th:href="@{/}" class="btn btn-secondary">Back</a>
+  <a th:href="@{/profile/edit}" class="btn btn-primary">Edit Profile</a>
+</div></th:block>
+
+</body>
+</html>

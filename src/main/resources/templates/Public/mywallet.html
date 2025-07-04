@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wallet</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Header styles */
+        .header {
+            color: black;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 15px;
+        }
+
+        /* Container styles */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Balance and button alignment */
+        .balance-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .balance-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-start;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .balance {
+            font-size: 28px;
+            font-weight: bold;
+            color: #28a745;
+            text-align: right; /* Align balance to the right */
+            margin-right: 20px; /* Adjust balance position */
+        }
+
+        .button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .topup {
+            background-color: #28a745;
+        }
+
+        .withdraw {
+            background-color: #dc3545;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Transaction form styles */
+        #transactionForm {
+            display: none;
+            background-color: #f1f1f1;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #transactionForm label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        #amount {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            margin-bottom: 10px;
+        }
+
+        #transactionForm button {
+            padding: 8px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            color: white;
+        }
+
+        #transactionForm button:nth-child(2) {
+            background-color: #007bff;
+        }
+
+        #transactionForm button:nth-child(3) {
+            background-color: #6c757d;
+        }
+
+        /* Date search styles */
+        .date-search {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-search label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .date-search input {
+            padding: 5px;
+            font-size: 16px;
+            width: 160px; /* Set input field width */
+        }
+
+        .date-search button {
+            padding: 6px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .date-search button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Table styles */
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .transaction-table thead {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .transaction-table th, .transaction-table td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .transaction-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .transaction-table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+        /* Color for transaction types */
+        .transaction-amount.green {
+            color: #28a745;
+        }
+
+        .transaction-amount.red {
+            color: #dc3545;
+        }
+
+        a {
+            text-decoration: none; /* Xóa dấu gạch chân */
+        }
+
+        a:hover {
+            text-decoration: none; /* Khi trỏ chuột vào, không có dấu gạch chân */
+        }
+
+        .green {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="header">My Wallet</div>
+        <div class="balance-container">
+            <div class="balance-info">
+                <div>Your current balance:</div>
+                <div id="balance" class="balance" th:text="${userWallet}"></div>
+            </div>
+            <div class="buttons">
+                <button class="button withdraw" onclick="openWithdraw()">Withdraw</button>
+                <a class="button topup" th:href="@{/payment}">Top-up</a>
+            </div>
+        </div>
+
+        <div class="date-search">
+            <form id="date-search" th:action="@{/mywallet}" method="post">
+                <label for="fromDate">From Date:</label>
+                <input th:value="${dateFrom}" name="dateFrom" type="date" id="fromDate">
+                <label for="toDate">To Date:</label>
+                <input th:value="${dateTo}" name="dateTo" type="date" id="toDate">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <h3>Transactions</h3>
+        <table class="transaction-table">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="transaction, iterStat : ${transactions}" id="transactionRow">
+                <td th:text="${iterStat.index + 1}"></td> <!-- Transaction number -->
+                <td class="amount" th:text="${transaction.amount}"></td> <!-- Amount -->
+                <td th:text="${transaction.status}"></td>
+                <td class="transaction-date" th:text="${transaction.transactionDate}"></td> <!-- Date -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Format the amount in VND and color based on status
+            let rows = document.querySelectorAll('#transactionRow');
+            rows.forEach(row => {
+                let amountCell = row.querySelector('.amount');
+                let statusCell = row.querySelector('td:nth-child(3)'); // status is in the 3rd column
+                let amount = parseFloat(amountCell.innerText);
+
+                // Determine the sign and class based on status
+                let status = statusCell.innerText.trim().toLowerCase(); // Normalize to lowercase
+                const isTopUp = status === "top up";
+                const sign = isTopUp ? '+ ' : '- ';
+                const colorClass = isTopUp ? 'green' : 'red';
+
+                // Format the amount
+                let formattedAmount = amount.toLocaleString('vi-VN') + ' VND';
+                amountCell.innerText = `${sign}${formattedAmount}`;
+
+                // Add color based on status
+                amountCell.classList.add(colorClass);
+            });
+
+            // Format the transaction date
+            let dateCells = document.querySelectorAll('.transaction-date');
+            dateCells.forEach(cell => {
+                let date = new Date(cell.innerText); // Ensure your date string is compatible with JS Date
+                let formattedDate = date.toLocaleString('vi-VN'); // Format as dd/MM/yyyy, HH:mm:ss
+                cell.innerText = formattedDate;
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

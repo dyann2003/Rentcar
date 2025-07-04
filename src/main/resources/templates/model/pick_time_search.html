@@ -1,0 +1,86 @@
+<!-- Modal -->
+<div th:fragment="picktime" class="modal fade" id="rentalModal" tabindex="-1" aria-labelledby="rentalModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rentalModalLabel">Thời gian</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Tabs for selecting type of rental -->
+                <div class="tab-container">
+                    <ul class="nav nav-tabs justify-content-center" id="rentalTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="daily-tab" data-toggle="tab" href="#daily" role="tab"
+                               aria-controls="daily" aria-selected="true">Thuê theo ngày</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="hourly-tab" data-toggle="tab" href="#hourly" role="tab"
+                               aria-controls="hourly" aria-selected="false">Thuê theo giờ</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="rentalTabContent">
+
+                    <!-- Daily Rental Content -->
+                    <div class="tab-pane fade show active" id="daily" role="tabpanel" aria-labelledby="daily-tab">
+                        <div class="form-group mt-3">
+                            <label class="form-label" for="timepicker2">Chọn khoảng thời gian thuê</label>
+                            <!-- Input cho date range -->
+                            <input style="background-color: white" class="form-control datetimepicker" id="timepicker2"
+                                   type="text"
+                                   placeholder="dd/mm/yyyy to dd/mm/yyyy"/>
+
+                        </div>
+                        <div class="form-group">
+                            <label>Nhận xe</label>
+                            <input class="form-control mb-2 custom-select" placeholder="Thời gian nhận xe"
+                                   id="pickupTime"
+                                   readonly onclick="suggestPickupTime()"
+                                   style="cursor: pointer; background-color: white"/>
+                            <ul id="suggestionsPickupTime"
+                                style="list-style-type: none; padding: 8px; margin-top: -8px; display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #ccc; width: 94%; max-height: 200px; overflow-y: auto;"></ul>
+
+                        </div>
+                        <div class="form-group">
+                            <label>Trả xe</label>
+                            <input class="form-control mb-2 custom-select" placeholder="Thời gian nhận xe"
+                                   id="returnTime"
+                                   readonly onclick="suggestReturnTime()"
+                                   style="cursor: pointer; background-color: white"/>
+                            <ul id="suggestionsReturnTime"
+                                style="list-style-type: none; padding: 8px; margin-top: -8px; display: none; position: absolute; z-index: 1000; background: white; border: 1px solid #ccc; width: 94%; max-height: 200px; overflow-y: auto;"></ul>
+
+                        </div>
+                    </div>
+                    <!-- Hourly Rental Content -->
+                    <div class="tab-pane fade" id="hourly" role="tabpanel" aria-labelledby="hourly-tab">
+                        <div class="form-group mt-3">
+                            <label>Ngày bắt đầu</label>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Giờ nhận xe</label>
+                            <input type="time" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Thời gian thuê</label>
+                            <select class="form-control">
+                                <option value="1">1 giờ</option>
+                                <option value="2">2 giờ</option>
+                                <option value="3">3 giờ</option>
+                                <!-- Add more options as needed -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="getTime()" class="btn btn-success">Tiếp tục</button>
+            </div>
+        </div>
+    </div>
+</div>

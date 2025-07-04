@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Home page</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <style>
+        .amount-container {
+            position: relative;
+        }
+
+        .amount-container input {
+            padding-right: 40px; /* Space for the VND text */
+        }
+
+        .amount-container .currency {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: gray;
+            font-size: 14px;
+            pointer-events: none; /* Disable interaction with VND */
+        }
+    </style>
+</head>
+<body>
+
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <img th:src="@{/img/vnpay-logo.png}" style="width: 200px">
+                        <h2 class="card-title">Thanh Toán Đơn Hàng</h2>
+                        <form th:action="@{/submitOrder}" method="post">
+                            <div class="form-group">
+                                <label for="amount">Số tiền:</label>
+                                <div class="amount-container">
+                                    <input type="text" class="form-control" id="amount" name="amount" required oninput="formatVND(this)">
+                                    <span class="currency">VND</span>
+                                </div>
+                                <input type="hidden" id="rawAmount" name="rawAmount">
+                            </div>
+                            <div class="form-group">
+                                <label for="orderInfo">Thông tin đơn hàng:</label>
+                                <input type="text" class="form-control" id="orderInfo" name="orderInfo" required
+                                       th:value="${sanitizedFullName} + ' thanh toan'">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Thanh toán</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function formatVND(input) {
+            // Remove non-digit characters
+            let value = input.value.replace(/\D/g, '');
+            // Format as VND
+            let formattedValue = new Intl.NumberFormat('vi-VN').format(value);
+            input.value = formattedValue ? formattedValue : '';
+            document.getElementById('rawAmount').value = value;
+        }
+    </script>
+    </th:block>
+</body>
+</html>

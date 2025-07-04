@@ -1,0 +1,56 @@
+<div class="row" th:fragment="pagination">
+    <div class="col">
+        <nav>
+            <ul class="pagination justify-content-center m-0">
+                <li th:if="${resultPage.totalPages > 5}"
+                    th:style="${resultPage.number <= 2} ? 'pointer-events: none;' : ''"
+                    th:class="'page-item'">
+                    <a href="javascript:void(0)" th:onclick="'javascript:goToPage(0,' + ${resultPage.size} + ')'"
+                       class="page-link" th:text="'<<'"
+                       th:style="${resultPage.number <= 2} ? 'color: #dee2e6;' : ''">
+                        <i class="bi bi-chevron-double-left"></i>
+                    </a>
+                </li>
+
+                <li th:style="${!resultPage.hasPrevious()} ? 'pointer-events: none;' : ''"
+                    th:class="'page-item'">
+                    <a href="javascript:void(0)"
+                       th:onclick="'javascript:goToPage(' + ${resultPage.number - 1} + ',' + ${resultPage.size} + ')'"
+                       class="page-link" th:text="'<'"
+                       th:style="${!resultPage.hasPrevious()} ? 'color: #dee2e6;' : ''">
+                        <i class="bi bi-chevron-left"></i>
+                    </a>
+                </li>
+
+                <li th:each="page, stat : ${displayPages}"
+                    th:class="${resultPage.number == page} ? 'page-item active' : 'page-item'">
+                    <span th:if="${page == 999999}" class="page-link justify-content-between"
+                          style="letter-spacing: 2px">...</span>
+                    <a href="javascript:void(0)" th:if="${page != 999999}"
+                       th:onclick="'javascript:goToPage(' + ${page} + ',' + ${resultPage.size} + ')'"
+                       th:text="${page + 1}" class="page-link"></a>
+                </li>
+
+                <li th:style="${!resultPage.hasNext()} ? 'pointer-events: none;' : ''"
+                    th:class="'page-item'">
+                    <a href="javascript:void(0)"
+                       th:onclick="'javascript:goToPage(' + ${resultPage.number + 1} + ',' + ${resultPage.size} + ')'"
+                       class="page-link" th:text="'>'"
+                       th:style="${!resultPage.hasNext()} ? 'color: #dee2e6;' : ''">
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                </li>
+                <li th:if="${resultPage.totalPages > 5}"
+                    th:style="${resultPage.number >= resultPage.totalPages - 3} ? 'pointer-events: none;' : ''"
+                    th:class="'page-item'">
+                    <a href="javascript:void(0)"
+                       th:onclick="'javascript:goToPage(' + ${resultPage.totalPages - 1} + ',' + ${resultPage.size} + ')'"
+                       class="page-link" th:text="'>>'"
+                       th:style="${resultPage.number >= resultPage.totalPages - 3} ? 'color: #dee2e6;' : ''">
+                        <i class="bi bi-chevron-double-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

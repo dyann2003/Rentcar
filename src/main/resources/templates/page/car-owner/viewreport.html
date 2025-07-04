@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title>Car  Detail</title>
+    <link rel="stylesheet" th:href="@{/css/cardetail.css}">
+    <style>
+        /* Kiểu cho ảnh xe trong báo cáo */
+        .car-image {
+            max-width: 100px;
+            height: auto;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+<th:block layout:fragment="content">
+    <div class="container mt-4">
+        <nav class="tab-header">
+            <a href="#" class="active">Sales Reports</a>
+            <a href="#">Feedback Report</a>
+        </nav>
+        <div class="text-center mb-3 average-rating">
+            <p>Average Ratings</p>
+            <h2 th:text="${mark}"></h2>
+            <div class="rating-stars text-warning">
+             <span th:each="i : ${#numbers.sequence(1, 5)}" th:if="${mark >= i}"><i class="fa fa-star"></i></span>
+
+                <span th:if="${mark % 1 >= 0.5 and mark < 5}"><i class="fa fa-star-half-o"></i></span>
+
+                <span th:each="i : ${#numbers.sequence(1, 4)}" th:if="${mark < i}"><i class="fa fa-star-o"></i></span>
+            </div>
+        </div>
+        <div class="d-flex justify-content-around mb-4">
+            <button class="btn btn-outline-secondary hightlight">
+                All <span th:text="'(' + ${point5+point4+point3+point2+point1} + ')'"></span>
+            </button>
+            <button class="btn btn-outline-secondary hightlight">
+                5 Stars <span th:text="'(' + ${point5} + ')'"></span>
+            </button>
+            <button class="btn btn-outline-secondary hightlight">
+                4 Stars <span th:text="'(' + ${point4} + ')'"></span>
+            </button>
+            <button class="btn btn-outline-secondary hightlight">
+                3 Stars <span th:text="'(' + ${point3} + ')'"></span>
+            </button>
+            <button class="btn btn-outline-secondary hightlight">
+                2 Stars <span th:text="'(' + ${point2} + ')'"></span>
+            </button>
+            <button class="btn btn-outline-secondary hightlight">
+                1 Stars <span th:text="'(' + ${point1} + ')'"></span>
+            </button>
+        </div>
+
+        <!-- Report Cards -->
+        <div th:each="report : ${reports}" class="report-card my-3 p-3 rounded shadow-sm border bg-white">
+            <div class="d-flex align-items-start">
+                <div class="me-3 user-icon-container">
+                    <i class="bi bi-person-circle user-icon"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h5 class="mb-1" th:text="${report.getUser().getFullName()}"></h5>
+                    <div class="mb-2 text-muted">
+                        <strong th:text="'Rent car : ' + ${report.getCar().getModel().getName() + ' ' + report.getCar().getBrand().getBrandName()}"></strong>
+                        <ul class="list-unstyled mb-0 small">
+                            <img th:src="${report.getCar().getImagePaths().get(0)}" alt="" class="car-image">
+                            <li>From: <p th:text="${report.getBooking().getStartDate()}"></p></li>
+                            <li>To: <p th:text="${report.getBooking().getEndDate()}"></p></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <p class="mb-1 small text-muted" th:text="${report.getDate()}">12/02/2022 08:30</p>
+                    <div class="rating-stars text-warning">
+                        <!-- Hiển thị sao dựa trên report.getMark() -->
+                        <span th:if="${report.getMark() >= 1}">★</span>
+                        <span th:if="${report.getMark() >= 2}">★</span>
+                        <span th:if="${report.getMark() >= 3}">★</span>
+                        <span th:if="${report.getMark() >= 4}">★</span>
+                        <span th:if="${report.getMark() >= 5}">★</span>
+                        <span th:if="${report.getMark() < 5}">☆</span>
+                        <span th:if="${report.getMark() < 4}">☆</span>
+                        <span th:if="${report.getMark() < 3}">☆</span>
+                        <span th:if="${report.getMark() < 2}">☆</span>
+                        <span th:if="${report.getMark() < 1}">☆</span>
+                    </div>
+                    <p class="mt-2 mb-0 text-dark" th:text="${report.getComment()}"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repeat report-card for more entries -->
+
+        <div class="pagination-wrapper mt-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination" th:each="i : ${listPage}">
+                    <li class="page-item" th:if="${i != 999999 and i != 1000000}">
+                        <a class="page-link" th:href="@{/car-owner/report?page=${i}}" th:text="${i}"></a>
+                    </li>
+                    <li class="page-item" th:if="${i == 999999}">
+                        <p>...</p>
+                    </li>
+                    <li class="page-item" th:if="${i == 1000000}">
+                        <p>...</p>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <script th:src="@{/js/viewreport.js}"></script>
+</th:block>
+</body>
+</html>
